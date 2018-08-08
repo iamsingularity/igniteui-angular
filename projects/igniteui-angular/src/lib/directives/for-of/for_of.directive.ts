@@ -1142,7 +1142,7 @@ export interface IForOfState {
 @NgModule({
     declarations: [IgxForOfDirective, DisplayContainerComponent, VirtualHelperComponent, HVirtualHelperComponent],
     entryComponents: [DisplayContainerComponent, VirtualHelperComponent, HVirtualHelperComponent],
-    exports: [IgxForOfDirective],
+    exports: [IgxForOfDirective, HVirtualHelperComponent, VirtualHelperComponent, DisplayContainerComponent],
     imports: [CommonModule]
 })
 
