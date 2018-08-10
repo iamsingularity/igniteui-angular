@@ -23,6 +23,7 @@ import { IgxGridFilterComponent } from './grid-filtering.component';
 import { IgxGridHeaderComponent } from './grid-header.component';
 import { IgxGridSummaryComponent } from './grid-summary.component';
 import { IgxGridToolbarComponent } from './grid-toolbar.component';
+import { IgxGridQuickFilterComponent } from './grid-quick-filter.component';
 import {
     IgxCellEditorTemplateDirective,
     IgxCellFooterTemplateDirective,
@@ -79,7 +80,8 @@ import { IgxColumnPinningModule } from './column-pinning.component';
     IgxGridPagingPipe,
     IgxGridFilteringPipe,
     IgxGridFilterConditionPipe,
-    IgxGridFilterExpressionComponent
+    IgxGridFilterExpressionComponent,
+    IgxGridQuickFilterComponent
   ],
   entryComponents: [
     IgxColumnComponent,

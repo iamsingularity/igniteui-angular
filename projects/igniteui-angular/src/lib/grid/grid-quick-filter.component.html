@@ -1,0 +1,34 @@
+<igx-icon (click)="toggleDropDown($event)">filter_list</igx-icon>
+<igx-drop-down #operands (onSelection)="onOperandChanged($event)">
+    <igx-drop-down-item [igxDropDownItemNavigation]="operands" *ngFor="let item of conditions">
+        <option [value]="item">
+            {{ item | filterCondition | titlecase }}
+        </option>
+    </igx-drop-down-item>
+</igx-drop-down>
+
+<ng-container *ngTemplateOutlet="template; context: { $implicit: this }"></ng-container>
+
+<ng-template #defaultFilterUI>
+    <igx-input-group type="box">
+        <input #input igxInput
+        type="text"
+        placeholder="Value"
+        autocomplete="off"
+        [disabled]="unaryCondition"
+        [value]="value"
+        (input)="onInputChanged($event.target.value)"
+        [igxFocus]="true"/>
+        <igx-suffix *ngIf="input.value.length > 0" (click)="clearInput()">
+            <igx-icon>clear</igx-icon>
+        </igx-suffix>
+    </igx-input-group>
+</ng-template>
+
+<ng-template #defaultDateUI>
+    <igx-datePicker
+        [disabled]="unaryCondition"
+        [value]="value"
+        (onSelection)="onDatePickerValueChanged($event)">
+    </igx-datePicker>
+</ng-template>
