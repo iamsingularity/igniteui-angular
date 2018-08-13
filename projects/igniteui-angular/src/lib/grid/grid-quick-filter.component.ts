@@ -28,6 +28,7 @@ import { ConnectedPositioningStrategy } from '../services/overlay/position/conne
 import { FilteringExpressionsTree } from '../data-operations/filtering-expressions-tree';
 import { IgxGridFilterConditionPipe } from './grid.pipes';
 import { TitleCasePipe } from '../../../../../node_modules/@angular/common';
+import { IgxDatePickerComponent } from '../date-picker/date-picker.component';
 
 /**
  * @hidden
@@ -72,7 +73,10 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
     @ViewChild('input', { read: ElementRef })
     protected input: ElementRef;
 
-    public expression: IFilteringExpression;
+    @ViewChild('datePicker', { read: ElementRef })
+    protected datePicker: IgxDatePickerComponent;
+
+    private expression: IFilteringExpression;
     protected conditionChanged = new Subject();
     protected unaryConditionChanged = new Subject();
     private _value = null;
@@ -110,11 +114,20 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
         switch (this.column.dataType) {
             case DataType.String:
             case DataType.Number:
+            case DataType.Boolean:
                 return this.defaultFilterUI;
             case DataType.Date:
                 return this.defaultDateUI;
+        }
+    }
+
+    get type() {
+        switch (this.column.dataType) {
+            case DataType.String:
             case DataType.Boolean:
-                return null;
+                return 'text';
+            case DataType.Number:
+                return 'number';
         }
     }
 
@@ -123,13 +136,20 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
             this._filter();
         } else {
             this.gridAPI.get(this.gridID).clearFilter(this.column.field);
-            this.input.nativeElement.value = null;
+            this.value = null;
+            if (this.input) {
+                this.input.nativeElement.value = null;
+            }
+            if (this.datePicker) {
+                this.datePicker.value = null;
+            }
         }
     }
 
     public unaryConditionChangedCallback(): void {
         const name = this.expression.condition.name;
         this.input.nativeElement.value = new TitleCasePipe().transform(new IgxGridFilterConditionPipe().transform(name));
+        this.expression.searchVal = null;
         this._filter();
     }
 
@@ -155,7 +175,7 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
     }
 
     public clearInput(): void {
-        this.expression.condition =  undefined;
+        //this.expression.condition =  undefined;
         this.value = null;
         this.gridAPI.get(this.gridID).clearFilter(this.column.field);
     }

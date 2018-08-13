@@ -111,17 +111,17 @@ export class IgxColumnComponent implements AfterContentInit {
     public editable = false;
     /**
      * Sets/gets whether the column is filterable.
-     * Default value is `false`.
+     * Default value is `true`.
      * ```typescript
      * let isFilterable = this.column.filterable;
      * ```
      * ```html
-     * <igx-column [filterable] = "true"></igx-column>
+     * <igx-column [filterable] = "false"></igx-column>
      * ```
      * @memberof IgxColumnComponent
      */
     @Input()
-    public filterable = false;
+    public filterable = true;
     /**
      * Sets/gets whether the column is resizable.
      * Default value is `false`.

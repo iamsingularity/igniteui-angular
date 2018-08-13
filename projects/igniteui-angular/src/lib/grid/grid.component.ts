@@ -124,6 +124,12 @@ export interface IColumnMovingEndEventArgs {
     cancel: boolean;
 }
 
+export enum FilterMode {
+    NONE = 'none',
+    FILTERROW = 'filterRow',
+    FILTERMENU = 'filterMenu'
+}
+
 /**
  * **Ignite UI for Angular Grid** -
  * [Documentation](https://www.infragistics.com/products/ignite-ui-angular/angular/components/grid.html)
@@ -854,6 +860,9 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
      */
     @Input()
     public columnPinningTitle = '';
+
+    @Input('filterMode')
+    public filterMode: string | FilterMode = 'none';
 
     /**
      * Emitted when `IgxGridCellComponent` is clicked. Returns the `IgxGridCellComponent`.

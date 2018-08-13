@@ -12,14 +12,14 @@
 <ng-template #defaultFilterUI>
     <igx-input-group type="box">
         <input #input igxInput
-        type="text"
+        [type]="type"
         placeholder="Value"
         autocomplete="off"
         [disabled]="unaryCondition"
         [value]="value"
         (input)="onInputChanged($event.target.value)"
         [igxFocus]="true"/>
-        <igx-suffix *ngIf="input.value.length > 0" (click)="clearInput()">
+        <igx-suffix *ngIf="input.value.length > 0 && !unaryCondition" (click)="clearInput()">
             <igx-icon>clear</igx-icon>
         </igx-suffix>
     </igx-input-group>
@@ -27,6 +27,7 @@
 
 <ng-template #defaultDateUI>
     <igx-datePicker
+        #datePicker
         [disabled]="unaryCondition"
         [value]="value"
         (onSelection)="onDatePickerValueChanged($event)">
