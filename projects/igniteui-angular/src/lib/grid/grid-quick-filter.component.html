@@ -1,4 +1,4 @@
-<igx-icon (click)="toggleDropDown($event)">filter_list</igx-icon>
+<!-- <igx-icon (click)="toggleDropDown($event)">filter_list</igx-icon> -->
 <igx-drop-down #operands (onSelection)="onOperandChanged($event)">
     <igx-drop-down-item [igxDropDownItemNavigation]="operands" *ngFor="let item of conditions">
         <option [value]="item">
@@ -19,6 +19,9 @@
         [value]="value"
         (input)="onInputChanged($event.target.value)"
         [igxFocus]="true"/>
+        <igx-prefix (click)="toggleDropDown($event)">
+            <igx-icon>filter_list</igx-icon>
+        </igx-prefix>
         <igx-suffix *ngIf="input.value.length > 0 && !unaryCondition" (click)="clearInput()">
             <igx-icon>clear</igx-icon>
         </igx-suffix>
