@@ -1457,15 +1457,15 @@ export class CustomFilter extends IgxFilteringOperand {
 
 
 @Component({
-    template: `<igx-grid [data]="data" height="500px">
-        <igx-column [field]="'ID'" [header]="'ID'"></igx-column>
-        <igx-column [field]="'ProductName'" [filterable]="true" dataType="string"></igx-column>
-        <igx-column [field]="'Downloads'" [filterable]="true" dataType="number"></igx-column>
-        <igx-column [field]="'Released'" [filterable]="true" dataType="boolean"></igx-column>
+    template: `<igx-grid [data]="data" height="500px" [filterMode]="'filterMenu'">
+        <igx-column [field]="'ID'" [header]="'ID'" [filterable]="false"></igx-column>
+        <igx-column [field]="'ProductName'" dataType="string"></igx-column>
+        <igx-column [field]="'Downloads'" dataType="number"></igx-column>
+        <igx-column [field]="'Released'" dataType="boolean"></igx-column>
         <igx-column [field]="'ReleaseDate'" [header]="'ReleaseDate'" headerClasses="header-release-date"
-            [filterable]="true" dataType="date">
+            dataType="date">
         </igx-column>
-        <igx-column [field]="'AnotherField'" [header]="'Anogther Field'" [filterable]="true"
+        <igx-column [field]="'AnotherField'" [header]="'Anogther Field'"
             dataType="string" [filters]="customFilter">
         </igx-column>
     </igx-grid>`

@@ -124,7 +124,7 @@ export interface IColumnMovingEndEventArgs {
     cancel: boolean;
 }
 
-export enum FilterMode {
+export const enum FilterMode {
     NONE = 'none',
     FILTERROW = 'filterRow',
     FILTERMENU = 'filterMenu'
@@ -254,6 +254,7 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
             this._filteringExpressionsTree = value;
             this.clearSummaryCache();
             this._pipeTrigger++;
+            this.onFilteringExpressionsChanged.emit();
             this.cdr.markForCheck();
             requestAnimationFrame(() => this.cdr.detectChanges());
         }
@@ -861,7 +862,7 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
     @Input()
     public columnPinningTitle = '';
 
-    @Input('filterMode')
+    @Input()
     public filterMode: string | FilterMode = 'none';
 
     /**
@@ -1188,6 +1189,12 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
      */
     @Output()
     protected onDensityChanged = new EventEmitter<any>();
+
+    /**
+     * @hidden
+     */
+    @Output()
+    public onFilteringExpressionsChanged = new EventEmitter<any>();
 
     /**
      * @hidden

@@ -23,7 +23,7 @@ import {
     IgxCellHeaderTemplateDirective,
     IgxCellTemplateDirective
 } from './grid.common';
-import { IgxGridComponent } from './grid.component';
+import { IgxGridComponent, FilterMode } from './grid.component';
 import {
     IFilteringExpressionsTree, IgxBooleanFilteringOperand, IgxNumberFilteringOperand, IgxDateFilteringOperand,
     IgxStringFilteringOperand
@@ -1041,7 +1041,7 @@ export class IgxColumnComponent implements AfterContentInit {
                 headerCell = valToPxlsUsingRange(range, this.headerCell.elementRef.nativeElement.children[titleIndex]);
             }
 
-            if (this.sortable || this.filterable) {
+            if (this.sortable || ( this.grid.filterMode === FilterMode.FILTERMENU && this.filterable)) {
                 headerCell += this.headerCell.elementRef.nativeElement.children[titleIndex + 1].getBoundingClientRect().width;
             }
 

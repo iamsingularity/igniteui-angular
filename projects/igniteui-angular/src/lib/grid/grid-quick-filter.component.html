@@ -1,5 +1,5 @@
 <!-- <igx-icon (click)="toggleDropDown($event)">filter_list</igx-icon> -->
-<igx-drop-down #operands (onSelection)="onOperandChanged($event)">
+<igx-drop-down #operands (onSelection)="onOperandChanged($event)" (onOpening)="onDropDownOpening($event)">
     <igx-drop-down-item [igxDropDownItemNavigation]="operands" *ngFor="let item of conditions">
         <option [value]="item">
             {{ item | filterCondition | titlecase }}
@@ -14,8 +14,8 @@
         <input #input igxInput
         [type]="type"
         placeholder="Value"
-        autocomplete="off"
-        [disabled]="unaryCondition"
+        autocomplete="off" 
+        [readonly]="unaryCondition"
         [value]="value"
         (input)="onInputChanged($event.target.value)"
         [igxFocus]="true"/>

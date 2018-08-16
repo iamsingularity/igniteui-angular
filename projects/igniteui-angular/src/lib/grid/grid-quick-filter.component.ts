@@ -3,18 +3,13 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    DoCheck,
     ElementRef,
-    EventEmitter,
-    HostBinding,
-    HostListener,
     Input,
     NgZone,
     OnInit,
     TemplateRef,
     ViewChild,
-    QueryList,
-    ViewChildren
+    OnDestroy
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DataType } from '../data-operations/data-util';
@@ -29,6 +24,7 @@ import { FilteringExpressionsTree } from '../data-operations/filtering-expressio
 import { IgxGridFilterConditionPipe } from './grid.pipes';
 import { TitleCasePipe } from '../../../../../node_modules/@angular/common';
 import { IgxDatePickerComponent } from '../date-picker/date-picker.component';
+import { IgxDropDownItemComponent } from '../drop-down/drop-down-item.component';
 
 /**
  * @hidden
@@ -39,7 +35,7 @@ import { IgxDatePickerComponent } from '../date-picker/date-picker.component';
     selector: 'igx-grid-quick-filter',
     templateUrl: './grid-quick-filter.component.html'
 })
-export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
+export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input()
     public column: IgxColumnComponent;
@@ -108,6 +104,13 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.igxDropDown.setSelectedItem(0);
+        this.gridAPI.get(this.gridID).onFilteringExpressionsChanged.subscribe(() => this.filteringExpressionsChangedCallback());
+    }
+
+    ngOnDestroy(): void {
+        this.conditionChanged.unsubscribe();
+        this.unaryConditionChanged.unsubscribe();
+        this.gridAPI.get(this.gridID).onFilteringExpressionsChanged.unsubscribe();
     }
 
     get template() {
@@ -138,26 +141,29 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
             this.gridAPI.get(this.gridID).clearFilter(this.column.field);
             this.value = null;
             if (this.input) {
-                this.input.nativeElement.value = null;
-            }
-            if (this.datePicker) {
-                this.datePicker.value = null;
+                this.input.nativeElement.placeholder = "Value";
             }
         }
     }
 
     public unaryConditionChangedCallback(): void {
+        this.value = null;
         const name = this.expression.condition.name;
-        this.input.nativeElement.value = new TitleCasePipe().transform(new IgxGridFilterConditionPipe().transform(name));
-        this.expression.searchVal = null;
+        this.input.nativeElement.placeholder = new TitleCasePipe().transform(new IgxGridFilterConditionPipe().transform(name));
         this._filter();
     }
 
-    get unaryCondition(): boolean {
-        return this.isUnaryCondition();
+    public filteringExpressionsChangedCallback(): void {
+        const expr = this.gridAPI.get(this.gridID).filteringExpressionsTree.find(this.column.field);
+
+        if (expr && expr instanceof FilteringExpressionsTree) {
+            this.value = (expr.filteringOperands[0] as IFilteringExpression).searchVal;
+            this.expression.condition = (expr.filteringOperands[0] as IFilteringExpression).condition;
+            this.cdr.detectChanges();
+        }
     }
 
-    public isUnaryCondition(): boolean {
+    get unaryCondition(): boolean {
         return this.expression && this.expression.condition && this.expression.condition.isUnary;
     }
 
@@ -169,18 +175,17 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
         return this.column.filters.instance().condition(value);
     }
 
-    public toggleDropDown(eventArgs) {
+    public toggleDropDown(eventArgs): void {
         this._overlaySettings.positionStrategy.settings.target = eventArgs.target;
         this.igxDropDown.toggle(this._overlaySettings);
     }
 
     public clearInput(): void {
-        //this.expression.condition =  undefined;
         this.value = null;
         this.gridAPI.get(this.gridID).clearFilter(this.column.field);
     }
 
-    public onOperandChanged(event) {
+    public onOperandChanged(event): void {
         const value = event.newSelection.elementRef.nativeElement.firstChild.value;
         this.expression.condition = this.getCondition(value);
         if (this.unaryCondition) {
@@ -190,7 +195,15 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
         }
     }
 
-    protected transformValue(value) {
+    public onDropDownOpening(event): void {
+        for (let index = 0; index < this.igxDropDown.items.length; index++) {
+            if(!this.igxDropDown.items[index].isSelected && this.igxDropDown.items[index].element.nativeElement.firstChild.value === this.expression.condition.name) {
+                this.igxDropDown.setSelectedItem(index);
+            }
+        }
+    }
+
+    protected transformValue(value): any {
         if (this.column.dataType === DataType.Number) {
             value = parseFloat(value);
         } else if (this.column.dataType === DataType.Boolean) {
@@ -222,7 +235,7 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
         this._filter();
     }
 
-    private _filter(){
+    private _filter(): void  {
         const grid = this.gridAPI.get(this.gridID);
         let expr = grid.filteringExpressionsTree.find(this.column.field) as FilteringExpressionsTree;
 
@@ -232,7 +245,7 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit {
             expr.filteringOperands = [];
         }
 
-        if (this.expression.searchVal || this.expression.searchVal === 0 || this.isUnaryCondition()) {
+        if (this.expression.searchVal || this.expression.searchVal === 0 || this.unaryCondition) {
             const newExpression = this._createNewExpression(this.expression);
             expr.filteringOperands.push(newExpression);
         }

@@ -63,10 +63,10 @@
         </ng-container>
         <ng-template igxFor let-col [igxForOf]="onlyTopLevel(unpinnedColumns)" [igxForScrollOrientation]="'horizontal'" [igxForScrollContainer]="parentVirtDir"
             [igxForContainerSize]='unpinnedWidth' [igxForTrackBy]='trackColumnChanges' #headerContainer>
-            <div class="igx-grid__thead-item">
+            <!-- <div class="igx-grid__thead-item"> -->
             <igx-grid-header [igxColumnMovingDrag]="col" [attr.droppable]="true" [igxColumnMovingDrop]="col" [gridID]="id" [column]="col" [style.min-width.px]="col.width" [style.flex-basis.px]='col.width'></igx-grid-header>
             <igx-grid-quick-filter *ngIf="filterMode === 'filterRow' && col.filterable" [gridID]="id" [column]="col" [style.min-width.px]="col.width" [style.flex-basis.px]='col.width'></igx-grid-quick-filter>
-            </div>
+            <!-- </div> -->
         </ng-template>
         <span *ngIf="hasMovableColumns && draggedColumn" [igxColumnMovingDrop]="parentVirtDir" [attr.droppable]="true" id="right" class="igx-grid__scroll-on-drag-right"></span>
     </div>

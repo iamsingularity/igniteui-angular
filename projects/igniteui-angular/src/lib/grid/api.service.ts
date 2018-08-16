@@ -353,9 +353,12 @@ export class IgxGridAPIService {
         if (index > -1) {
             filteringState.filteringOperands.splice(index, 1);
             this.remove_summary(id, fieldName);
-        } else {
+        } else if (!fieldName) {
             filteringState.filteringOperands = [];
             this.remove_summary(id);
+        } else {
+            //case when there are no filtering operands for the given field
+            return;
         }
 
         grid.filteringExpressionsTree = filteringState;
