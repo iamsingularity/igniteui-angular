@@ -13,7 +13,7 @@
     <igx-input-group type="box">
         <input #input igxInput
         [type]="type"
-        placeholder="Value"
+        [placeholder]="expression.condition.name | filterCondition | titlecase"
         autocomplete="off" 
         [readonly]="unaryCondition"
         [value]="value"

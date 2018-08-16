@@ -51,6 +51,7 @@ import { IgxGridGroupByRowComponent } from './groupby-row.component';
 import { IgxGridRowComponent } from './row.component';
 import { DataUtil, IFilteringOperation, IFilteringExpressionsTree, FilteringExpressionsTree } from '../../public_api';
 import { IgxGridHeaderComponent } from './grid-header.component';
+import { IgxGridQuickFilterComponent } from './grid-quick-filter.component';
 
 let NEXT_ID = 0;
 const DEBOUNCE_TIME = 16;
@@ -253,7 +254,17 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
 
             this._filteringExpressionsTree = value;
             this._pipeTrigger++;
-            this.onFilteringExpressionsChanged.emit();
+
+            if (this.filterMode === FilterMode.FILTERROW) {
+                for (let index = 0; index < val.filteringOperands.length; index++) {
+                    const filterCell = this.filterCellList.find( fc => fc.column.field ===  val.filteringOperands[index].fieldName);
+                    if (filterCell) {
+                        const expression = (val.filteringOperands[index] as FilteringExpressionsTree).filteringOperands[0] as IFilteringExpression;
+                        filterCell.value = expression.searchVal;
+                        filterCell.expression.condition = expression.condition;
+                    }
+                }
+            }
             this.cdr.markForCheck();
             requestAnimationFrame(() => {
                 this.clearSummaryCache();
@@ -1195,12 +1206,6 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
     /**
      * @hidden
      */
-    @Output()
-    public onFilteringExpressionsChanged = new EventEmitter<any>();
-
-    /**
-     * @hidden
-     */
     @ContentChildren(IgxColumnComponent, { read: IgxColumnComponent, descendants: true })
     public columnList: QueryList<IgxColumnComponent>;
 
@@ -1209,6 +1214,12 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
      */
     @ViewChildren(IgxGridHeaderComponent, { read: IgxGridHeaderComponent })
     public headerList: QueryList<IgxGridHeaderComponent>;
+
+    /**
+     * @hidden
+     */
+    @ViewChildren(IgxGridQuickFilterComponent, { read: IgxGridQuickFilterComponent })
+    public filterCellList: QueryList<IgxGridQuickFilterComponent>;
 
     /**
      * @hidden

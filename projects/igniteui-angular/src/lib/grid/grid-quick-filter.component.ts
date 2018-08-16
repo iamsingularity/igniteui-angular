@@ -21,10 +21,6 @@ import { FilteringLogic, IFilteringExpression } from '../data-operations/filteri
 import { OverlaySettings, HorizontalAlignment, VerticalAlignment } from '../services/overlay/utilities';
 import { ConnectedPositioningStrategy } from '../services/overlay/position/connected-positioning-strategy';
 import { FilteringExpressionsTree } from '../data-operations/filtering-expressions-tree';
-import { IgxGridFilterConditionPipe } from './grid.pipes';
-import { TitleCasePipe } from '../../../../../node_modules/@angular/common';
-import { IgxDatePickerComponent } from '../date-picker/date-picker.component';
-import { IgxDropDownItemComponent } from '../drop-down/drop-down-item.component';
 
 /**
  * @hidden
@@ -55,10 +51,11 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit, OnDes
             this._value = this.transformValue(val);
         }
         this.expression.searchVal = this._value;
+        this.cdr.detectChanges();
     }
 
     @ViewChild(IgxDropDownComponent) 
-    public igxDropDown: IgxDropDownComponent;
+    protected igxDropDown: IgxDropDownComponent;
 
     @ViewChild('defaultFilterUI', { read: TemplateRef })
     protected defaultFilterUI: TemplateRef<any>;
@@ -66,13 +63,7 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit, OnDes
     @ViewChild('defaultDateUI', { read: TemplateRef })
     protected defaultDateUI: TemplateRef<any>;
 
-    @ViewChild('input', { read: ElementRef })
-    protected input: ElementRef;
-
-    @ViewChild('datePicker', { read: ElementRef })
-    protected datePicker: IgxDatePickerComponent;
-
-    private expression: IFilteringExpression;
+    public expression: IFilteringExpression;
     protected conditionChanged = new Subject();
     protected unaryConditionChanged = new Subject();
     private _value = null;
@@ -103,14 +94,18 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit, OnDes
     }
 
     ngAfterViewInit(): void {
-        this.igxDropDown.setSelectedItem(0);
-        this.gridAPI.get(this.gridID).onFilteringExpressionsChanged.subscribe(() => this.filteringExpressionsChangedCallback());
+        const grid = this.gridAPI.get(this.gridID);
+        let expressionTree = grid.filteringExpressionsTree.find(this.column.field) as FilteringExpressionsTree;
+        if (expressionTree) {
+            const expr = expressionTree.filteringOperands[0] as IFilteringExpression;
+            this.value = expr.searchVal;
+            this.expression.condition = expr.condition;
+        }
     }
 
     ngOnDestroy(): void {
         this.conditionChanged.unsubscribe();
         this.unaryConditionChanged.unsubscribe();
-        this.gridAPI.get(this.gridID).onFilteringExpressionsChanged.unsubscribe();
     }
 
     get template() {
@@ -140,27 +135,12 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit, OnDes
         } else {
             this.gridAPI.get(this.gridID).clearFilter(this.column.field);
             this.value = null;
-            if (this.input) {
-                this.input.nativeElement.placeholder = "Value";
-            }
         }
     }
 
     public unaryConditionChangedCallback(): void {
         this.value = null;
-        const name = this.expression.condition.name;
-        this.input.nativeElement.placeholder = new TitleCasePipe().transform(new IgxGridFilterConditionPipe().transform(name));
         this._filter();
-    }
-
-    public filteringExpressionsChangedCallback(): void {
-        const expr = this.gridAPI.get(this.gridID).filteringExpressionsTree.find(this.column.field);
-
-        if (expr && expr instanceof FilteringExpressionsTree) {
-            this.value = (expr.filteringOperands[0] as IFilteringExpression).searchVal;
-            this.expression.condition = (expr.filteringOperands[0] as IFilteringExpression).condition;
-            this.cdr.detectChanges();
-        }
     }
 
     get unaryCondition(): boolean {
