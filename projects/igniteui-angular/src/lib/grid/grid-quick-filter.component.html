@@ -10,7 +10,8 @@
 <ng-container *ngTemplateOutlet="template; context: { $implicit: this }"></ng-container>
 
 <ng-template #defaultFilterUI>
-    <igx-input-group type="box">
+    <igx-input-group>
+        <label igxLabel *ngIf="value">{{ conditionName | filterCondition | titlecase }}</label>
         <input #input igxInput
         [type]="type"
         [placeholder]="conditionName | filterCondition | titlecase"

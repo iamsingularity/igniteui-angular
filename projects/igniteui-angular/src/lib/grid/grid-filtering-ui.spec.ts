@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Calendar, ICalendarDate } from '../calendar/calendar';
 import { IgxInputDirective } from '../directives/input/input.directive';
-import { IgxGridComponent } from './grid.component';
+import { IgxGridComponent, FilterMode } from './grid.component';
 import { IgxGridModule } from './index';
 import { IgxFilteringOperand, IgxStringFilteringOperand, FilteringExpressionsTree, FilteringLogic } from '../../public_api';
 import { IgxButtonDirective } from '../directives/button/button.directive';
@@ -1433,6 +1433,70 @@ describe('IgxGrid - Filtering actions', () => {
 
         expect(select.nativeElement.value).toMatch('startsWith');
         expect(input.nativeElement.value).toMatch('Ignite');
+    }));
+
+    it('Should correctly create FilteringExpressionsTree and populate filter row.', fakeAsync(() => {
+        const fix = TestBed.createComponent(IgxGridFilteringComponent);
+        fix.detectChanges();
+
+        const grid = fix.componentInstance.grid;
+        grid.filterMode = FilterMode.FILTERROW;
+
+        const filteringExpressionsTree = new FilteringExpressionsTree(FilteringLogic.And, 'ProductName');
+        const expression = {
+            fieldName: 'ProductName',
+            searchVal: 'Ignite',
+            condition: IgxStringFilteringOperand.instance().condition('startsWith')
+        };
+
+        filteringExpressionsTree.filteringOperands.push(expression);
+        grid.filteringExpressionsTree = filteringExpressionsTree;
+
+        fix.detectChanges();
+
+        expect(grid.rowList.length).toEqual(2);
+
+        //TODO
+    }));
+
+    it('Should correctly apply filter when input value in filter cell.', fakeAsync(() => {
+        const fix = TestBed.createComponent(IgxGridFilteringComponent);
+        fix.detectChanges();
+
+        const grid = fix.componentInstance.grid;
+        grid.filterMode = FilterMode.FILTERROW;
+
+        //TODO
+    }));
+
+    it('Should correctly apply filter when change condition in filter cell.', fakeAsync(() => {
+        const fix = TestBed.createComponent(IgxGridFilteringComponent);
+        fix.detectChanges();
+
+        const grid = fix.componentInstance.grid;
+        grid.filterMode = FilterMode.FILTERROW;
+
+        //TODO
+    }));
+
+    it('Should disable filter cell when an unary condition is selected.', fakeAsync(() => {
+        const fix = TestBed.createComponent(IgxGridFilteringComponent);
+        fix.detectChanges();
+
+        const grid = fix.componentInstance.grid;
+        grid.filterMode = FilterMode.FILTERROW;
+
+        //TODO
+    }));
+
+    it('Should clear filter when input is cleared via button.', fakeAsync(() => {
+        const fix = TestBed.createComponent(IgxGridFilteringComponent);
+        fix.detectChanges();
+
+        const grid = fix.componentInstance.grid;
+        grid.filterMode = FilterMode.FILTERROW;
+
+        //TODO
     }));
 });
 
