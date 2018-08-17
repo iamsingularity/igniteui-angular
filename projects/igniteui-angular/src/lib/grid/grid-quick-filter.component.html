@@ -13,12 +13,11 @@
     <igx-input-group type="box">
         <input #input igxInput
         [type]="type"
-        [placeholder]="expression.condition.name | filterCondition | titlecase"
+        [placeholder]="conditionName | filterCondition | titlecase"
         autocomplete="off" 
         [readonly]="unaryCondition"
         [value]="value"
-        (input)="onInputChanged($event.target.value)"
-        [igxFocus]="true"/>
+        (input)="onInputChanged($event.target.value)"/>
         <igx-prefix (click)="toggleDropDown($event)">
             <igx-icon>filter_list</igx-icon>
         </igx-prefix>

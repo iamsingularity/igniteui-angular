@@ -260,8 +260,8 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
                     const filterCell = this.filterCellList.find( fc => fc.column.field ===  val.filteringOperands[index].fieldName);
                     if (filterCell) {
                         const expression = (val.filteringOperands[index] as FilteringExpressionsTree).filteringOperands[0] as IFilteringExpression;
-                        filterCell.value = expression.searchVal;
                         filterCell.expression.condition = expression.condition;
+                        filterCell.value = expression.searchVal;
                     }
                 }
             }
@@ -875,8 +875,32 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
     @Input()
     public columnPinningTitle = '';
 
+    /**
+     * Returns the filter mode of the grid.
+     * ```typescript
+     *  let filterMode = this.grid.filterMode;
+     * ```
+	 * @memberof IgxGridComponent
+     */
     @Input()
-    public filterMode: string | FilterMode = 'none';
+    get filterMode() {
+        return this._filterMode;
+    }
+
+    /**
+     * Sets if the filtering is on or off and what UI to show.
+     * By default it's set to FilterMode.NONE.
+     * ```html
+     * <igx-grid #grid [data]="localData" [filterMode]="'filterRow'" [height]="'305px'" [autoGenerate]="true"></igx-grid>
+     * ```
+	 * @memberof IgxGridComponent
+     */
+    set filterMode(value) {
+        if (this._filterMode !== value) {
+            this._filterMode = value;
+            this.markForCheck();
+        }
+    }
 
     /**
      * Emitted when `IgxGridCellComponent` is clicked. Returns the `IgxGridCellComponent`.
@@ -1955,6 +1979,7 @@ export class IgxGridComponent implements OnInit, OnDestroy, AfterContentInit, Af
     private _columnWidthSetByUser = false;
 
     private _defaultTargetRecordNumber = 10;
+    private _filterMode = FilterMode.NONE;
 
     constructor(
         private gridAPI: IgxGridAPIService,

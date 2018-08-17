@@ -151,6 +151,10 @@ export class IgxGridQuickFilterComponent implements OnInit, AfterViewInit, OnDes
         return this.column.filters.instance().conditionList();
     }
 
+    get conditionName() {
+        return this.expression.condition.name;
+    }
+
     public getCondition(value: string): IFilteringOperation {
         return this.column.filters.instance().condition(value);
     }
