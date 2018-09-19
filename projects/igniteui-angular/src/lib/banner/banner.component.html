@@ -1,10 +1,24 @@
 <igx-expansion-panel #expansionPanel (onCollapsed)="onCollapsed($event)" (onExpanded)="onExpanded($event)" [collapsed]="collapsed">
     <igx-expansion-panel-body>
-        <div *ngIf="useDefaultTemplate">
-            <igx-icon *ngIf="icon" fontSet="material">{{icon}}</igx-icon>
-            {{message}}
-            <button #rejectButton *ngIf="rejectButtonText" (click)="reject()">{{rejectButtonText}}</button>
-            <button #confirmButton *ngIf="confirmButtonText" (click)="confirm()">{{confirmButtonText}}</button>
+        <div class="igx-banner" *ngIf="useDefaultTemplate">
+            <div class="igx-banner__message">
+                <div class="igx-banner__illustration">
+                    <igx-icon *ngIf="icon" fontSet="material">{{icon}}</igx-icon>
+                </div>
+                <span class="igx-banner__text">
+                    {{message}}
+                </span>
+            </div>
+            <div class="igx-banner__actions">
+                <div class="igx-banner__row">
+                    <button igxButton="flat" igxRipple #rejectButton *ngIf="rejectButtonText" (click)="reject()">
+                        {{rejectButtonText}}
+                    </button>
+                    <button igxButton="flat" igxRipple #confirmButton *ngIf="confirmButtonText" (click)="confirm()">
+                        {{confirmButtonText}}
+                    </button>
+                </div>
+            </div>
         </div>
         <ng-content *ngIf="!useDefaultTemplate"></ng-content>
     </igx-expansion-panel-body>

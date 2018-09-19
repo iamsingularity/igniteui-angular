@@ -3,6 +3,7 @@ import { IgxExpansionPanelModule } from '../expansion-panel/expansion-panel.modu
 import { BrowserModule } from '@angular/platform-browser';
 import { IgxExpansionPanelComponent } from '../expansion-panel';
 import { IgxIconModule } from '../icon/index';
+import {IgxButtonModule} from "../directives/button/button.directive";
 
 export interface BannerEventArgs {
     banner: IgxBannerComponent;
@@ -84,7 +85,7 @@ export class IgxBannerComponent {
 @NgModule({
     declarations: [IgxBannerComponent],
     exports: [IgxBannerComponent],
-    imports: [IgxExpansionPanelModule, IgxIconModule, BrowserModule]
+    imports: [IgxExpansionPanelModule, IgxIconModule, BrowserModule, IgxButtonModule],
 })
 export class IgxBannerModule {
 }
