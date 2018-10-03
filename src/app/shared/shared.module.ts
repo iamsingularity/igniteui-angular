@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {
     IgxAvatarModule,
     IgxBadgeModule,
+    IgxBannerModule,
     IgxCardModule,
     IgxCarouselModule,
     IgxCalendarModule,
@@ -40,6 +41,7 @@ import {
 const igniteModules = [
     IgxAvatarModule,
     IgxBadgeModule,
+    IgxBannerModule,
     IgxCardModule,
     IgxCalendarModule,
     IgxCarouselModule,

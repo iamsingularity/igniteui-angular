@@ -36,6 +36,11 @@ export class AppComponent implements OnInit {
             name: 'Badge'
         },
         {
+            link: '/banner',
+            icon: 'banner',
+            name: 'Banner'
+        },
+        {
             link: '/buttonGroup',
             icon: 'group_work',
             name: 'Button Group'

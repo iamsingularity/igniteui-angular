@@ -69,11 +69,13 @@ import { OverlayAnimationSampleComponent } from './overlay/overlay-animation.sam
 import { RadioSampleComponent } from './radio/radio.sample';
 import { TooltipSampleComponent } from './tooltip/tooltip.sample';
 import { ExpansionPanelSampleComponent } from './expansion-panel/expansion-panel-sample';
+import { BannerSampleComponent } from './banner/banner.sample';
 
 const components = [
     AppComponent,
     AvatartSampleComponent,
     BadgeSampleComponent,
+    BannerSampleComponent,
     ButtonSampleComponent,
     CalendarSampleComponent,
     CardSampleComponent,

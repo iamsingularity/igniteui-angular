@@ -41,6 +41,7 @@ import { GridGroupBySampleComponent } from './grid-groupby/grid-groupby.sample';
 import { TooltipSampleComponent } from './tooltip/tooltip.sample';
 import { ExpansionPanelSampleComponent } from './expansion-panel/expansion-panel-sample';
 import { GridCellStylingSampleComponent } from './gird-cell-styling/grid-cell-styling.sample';
+import { BannerSampleComponent } from './banner/banner.sample';
 
 
 const appRoutes = [
@@ -56,6 +57,10 @@ const appRoutes = [
     {
         path: 'badge',
         component: BadgeSampleComponent
+    },
+    {
+        path: 'banner',
+        component: BannerSampleComponent
     },
     {
         path: 'buttons',

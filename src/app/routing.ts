@@ -52,6 +52,7 @@ import { OverlayAnimationSampleComponent } from './overlay/overlay-animation.sam
 import { RadioSampleComponent } from './radio/radio.sample';
 import { TooltipSampleComponent } from './tooltip/tooltip.sample';
 import { GridCellStylingSampleComponent } from './gird-cell-styling/grid-cell-styling.sample';
+import { BannerSampleComponent } from './banner/banner.sample';
 
 const appRoutes = [
     {
@@ -66,6 +67,10 @@ const appRoutes = [
     {
         path: 'badge',
         component: BadgeSampleComponent
+    },
+    {
+        path: 'banner',
+        component: BannerSampleComponent
     },
     {
         path: 'buttons',
