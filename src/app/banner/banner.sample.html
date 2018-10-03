@@ -1,5 +1,8 @@
 <div class="sample-wrapper">
-    <igx-banner message='Some information in this banner!!' rejectButtonText='Opaaa!!' confirmButtonText='Aydeeee...'></igx-banner>
+    <igx-banner message='' rejectButtonText='Opaaa!!' confirmButtonText='Aydeeee...'
+        (onOpen)="onOpen($event)" (onClose)="onClose($event)" (onButtonClick)="onButtonClick($event)">
+        Ei go na kustomerskia shablon!!!!
+    </igx-banner>
     <app-page-header title="Banner">
         Allows the user to add banners to the application.
     </app-page-header>

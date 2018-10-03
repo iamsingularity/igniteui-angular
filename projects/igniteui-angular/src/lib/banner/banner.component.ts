@@ -13,14 +13,10 @@ export interface BannerEventArgs {
     templateUrl: 'banner.component.html'
 })
 export class IgxBannerComponent {
+    private _bannerEvent: BannerEventArgs = { banner: null, button: null };
+
     @ViewChild('expansionPanel')
     private _expansionPanel: IgxExpansionPanelComponent;
-
-    @ViewChild('rejectButton')
-    private rejectButton;
-
-    @ViewChild('confirmButton')
-    private confirmButton;
 
     @Output()
     public onOpen = new EventEmitter<BannerEventArgs>();
@@ -40,34 +36,45 @@ export class IgxBannerComponent {
     @Input()
     public rejectButtonText: string;
 
-    public useDefaultTemplate: boolean = this.message !== '' && (this.rejectButtonText !== '' || this.confirmButtonText !== '');
-
-    public collapsed = true;
-
-    public open(ev?: BannerEventArgs) {
-        this._expansionPanel.expand();
-        this.collapsed = false;
+    @Input()
+    public get useDefaultTemplate(): boolean {
+        return this.message !== '' && (this.rejectButtonText !== '' || this.confirmButtonText !== '');
     }
 
-    public close(ev?: BannerEventArgs) {
+    public get collapsed() {
+        return this._expansionPanel.collapsed;
+    }
+
+    public open() {
+        this._bannerEvent.banner = this;
+        this._expansionPanel.expand();
+    }
+
+    public close() {
+        this._bannerEvent.banner = this;
         this._expansionPanel.collapse();
-        this.collapsed = true;
     }
 
     public reject() {
-        this.close({ banner: this, button: 'reject' });
+        this._bannerEvent.button = 'reject';
+        this.close();
     }
 
     public confirm() {
-        this.close({ banner: this, button: 'confirm' });
-    }
-
-    public onCollapsed(ev) {
-        this.onClose.emit({ banner: this });
+        this._bannerEvent.button = 'confirm';
+        this.close();
     }
 
     public onExpanded(ev) {
-        this.onOpen.emit({ banner: this });
+        this.onOpen.emit(this._bannerEvent);
+        this._bannerEvent.banner = null;
+        this._bannerEvent.button = null;
+    }
+
+    public onCollapsed(ev) {
+        this.onClose.emit(this._bannerEvent);
+        this._bannerEvent.banner = null;
+        this._bannerEvent.button = null;
     }
 }
 @NgModule({
@@ -77,4 +84,3 @@ export class IgxBannerComponent {
 })
 export class IgxBannerModule {
 }
-
