@@ -1,15 +1,11 @@
 <div class="sample-wrapper">
+    <igx-banner message='Some information in this banner!!' rejectButtonText='Opaaa!!' confirmButtonText='Aydeeee...'></igx-banner>
     <app-page-header title="Banner">
         Allows the user to add banners to the application.
     </app-page-header>
-
     <div class="sample-content">
-
         <section class="sample-column">
-            <h4 class="sample-title">Banner</h4>
-            <article class="banner-wrapper">
-                <igx-banner></igx-banner>
-            </article>
+            <button (click)="toggle()">Toggle</button>
         </section>
     </div>
 </div>

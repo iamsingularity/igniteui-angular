@@ -1,6 +1,10 @@
-<igx-expansion-panel (onCollapsed)="onCollapsed($event)" (onExpanded)="onExpanded($event)" [collapsed]="collapsed">
+<igx-expansion-panel #expansionPanel (onCollapsed)="onCollapsed($event)" (onExpanded)="onExpanded($event)" [collapsed]="collapsed">
     <igx-expansion-panel-body>
-        <div style='width: 100%; height: 100%'>
+        <div *ngIf="useDefaultTemplate">
+            {{message}}
+            <button #rejectButton (click)="reject()">{{rejectButtonText}}</button>
+            <button #confirmButton (click)="confirm()">{{confirmButtonText}}</button>
         </div>
+        <ng-content *ngIf="!useDefaultTemplate"></ng-content>
     </igx-expansion-panel-body>
 </igx-expansion-panel>
