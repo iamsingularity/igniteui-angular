@@ -20,62 +20,107 @@ export class IgxBannerComponent {
     @ViewChild('expansionPanel')
     private _expansionPanel: IgxExpansionPanelComponent;
 
+    /**
+     * Fires after the banner shows up
+     */
     @Output()
     public onOpen = new EventEmitter<BannerEventArgs>();
 
+    /**
+     * Fires after the banner hides
+     */
     @Output()
     public onClose = new EventEmitter<BannerEventArgs>();
 
+    /**
+     * Fires when one click either confirming or dismissive button
+     */
     @Output()
     public onButtonClick = new EventEmitter<BannerEventArgs>();
 
+    /**
+     * Set name of the icon from material design icons
+     */
     @Input()
     public icon: string;
 
+    /**
+     * Sets the message to show in the banner
+     */
     @Input()
     public message: string;
 
+    /**
+     * Sets the description of confirming button
+     */
     @Input()
     public confirmButtonText: string;
 
+    /**
+     * Set the description of the dismissive button
+     */
     @Input()
-    public rejectButtonText: string;
+    public dismissButtonText: string;
 
+    /**
+     * Hidden
+     */
     @Input()
     public get useDefaultTemplate(): boolean {
-        return this.message !== '' && (this.rejectButtonText !== '' || this.confirmButtonText !== '');
+        return this.message !== '' && (this.dismissButtonText !== '' || this.confirmButtonText !== '');
     }
 
+    /**
+     * Gets whether banner is collapsed
+     */
     public get collapsed() {
         return this._expansionPanel.collapsed;
     }
 
+    /**
+     * Opens the banner
+     */
     public open() {
         this._bannerEvent.banner = this;
         this._expansionPanel.expand();
     }
 
+    /**
+     * Closes the banner
+     */
     public close() {
         this._bannerEvent.banner = this;
         this._expansionPanel.collapse();
     }
 
-    public reject() {
-        this._bannerEvent.button = 'reject';
+    /**
+     * hidden
+     */
+    public dismiss() {
+        this._bannerEvent.button = 'dismiss';
         this.close();
     }
 
+    /**
+     * hidden
+     */
     public confirm() {
         this._bannerEvent.button = 'confirm';
         this.close();
     }
 
+    /**
+     * hidden
+     */
     public onExpanded(ev) {
         this.onOpen.emit(this._bannerEvent);
         this._bannerEvent.banner = null;
         this._bannerEvent.button = null;
     }
 
+    /**
+     * hidden
+     */
     public onCollapsed(ev) {
         this.onClose.emit(this._bannerEvent);
         this._bannerEvent.banner = null;
