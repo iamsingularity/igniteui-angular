@@ -1,20 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { async, TestBed, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
-// import { IgxBannerModule } from './banner.module';
+import { IgxBannerComponent, IgxBannerModule } from './banner.component';
+import { IgxExpansionPanelModule } from '../expansion-panel';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+// import { IgxToggleModule } from '../directives/toggle/toggle.directive';
+// import { IgxRippleModule } from '../directives/ripple/ripple.directive';
+// import { IgxButtonModule } from '../directives/button/button.directive';
 
 describe('igxBanner', () => {
     beforeEach(async(() => {
         // TestBed.resetTestingModule();
         TestBed.configureTestingModule({
             declarations: [
-                // IgxExpansionPanelGridComponent,
-                // IgxExpansionPanelListComponent,
-                // IgxExpansionPanelSampleComponent,
-                // IgxExpansionPanelImageComponent
+                IgxBannerBasicComponent,
+                IgxBannerSampleComponent,
             ],
             imports: [
-                // IgxBannerModule,
-                // NoopAnimationsModule,
+                IgxBannerModule,
+                IgxExpansionPanelModule,
+                NoopAnimationsModule,
                 // IgxToggleModule,
                 // IgxRippleModule,
                 // IgxButtonModule,
@@ -25,7 +29,16 @@ describe('igxBanner', () => {
     }));
 
     describe('General tests: ', () => {
-        it('Should initialize banner component properly', () => {
+        fit('Should initialize banner component properly', () => {
+            const fixture: ComponentFixture<IgxBannerSampleComponent> = TestBed.createComponent(IgxBannerSampleComponent);
+            fixture.detectChanges();
+            const banner = fixture.componentInstance.banner;
+            expect(fixture.componentInstance).toBeDefined();
+            expect(banner).toBeDefined();
+            expect(banner.message).toEqual('Unfortunately, the credit card did not go through, please try again.');
+            expect(banner.icon).toEqual('error');
+            expect(banner.confirmButtonText).toEqual('Update');
+            expect(banner.rejectButtonText).toEqual('Dismiss');
         });
         it('Should properly accept input properties', () => {
         });
@@ -69,3 +82,34 @@ describe('igxBanner', () => {
     });
 
 });
+
+@Component({
+    template: `
+<div style = "width:300px">
+<igx-banner>
+    </igx-banner>
+</div>
+`
+})
+export class IgxBannerBasicComponent {
+    @ViewChild(IgxBannerComponent, { read: IgxBannerComponent })
+    public banner: IgxBannerComponent;
+}
+
+@Component({
+    template: `
+<div style = "width:300px">
+<igx-banner
+message="Unfortunately, the credit card did not go through, please try again."
+rejectButtonText='Dismiss'
+confirmButtonText='Update'
+icon='error'>
+    </igx-banner>
+</div>
+`
+})
+export class IgxBannerSampleComponent {
+    @ViewChild(IgxBannerComponent, { read: IgxBannerComponent })
+    public banner: IgxBannerComponent;
+}
+
