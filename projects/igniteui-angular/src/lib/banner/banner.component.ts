@@ -2,6 +2,7 @@ import { Component, NgModule, EventEmitter, Output, Input, ViewChild } from '@an
 import { IgxExpansionPanelModule } from '../expansion-panel/expansion-panel.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { IgxExpansionPanelComponent } from '../expansion-panel';
+import { IgxIconModule } from '../icon/index';
 
 export interface BannerEventArgs {
     banner: IgxBannerComponent;
@@ -26,6 +27,9 @@ export class IgxBannerComponent {
 
     @Output()
     public onButtonClick = new EventEmitter<BannerEventArgs>();
+
+    @Input()
+    public icon: string;
 
     @Input()
     public message: string;
@@ -80,7 +84,7 @@ export class IgxBannerComponent {
 @NgModule({
     declarations: [IgxBannerComponent],
     exports: [IgxBannerComponent],
-    imports: [IgxExpansionPanelModule, BrowserModule]
+    imports: [IgxExpansionPanelModule, IgxIconModule, BrowserModule]
 })
 export class IgxBannerModule {
 }
