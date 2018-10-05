@@ -104,7 +104,6 @@
 
     %igx-banner__message {
         flex: 1 0 0%;
-        align-self: flex-start;
         margin-right: rem(90);
     }
 
@@ -124,6 +123,7 @@
         flex-direction: column;
 
         %igx-banner__message {
+            align-self: flex-start;
             margin-right: rem(36);
         }
 
