@@ -3,7 +3,7 @@
         <div *ngIf="useDefaultTemplate">
             <igx-icon *ngIf="icon" fontSet="material">{{icon}}</igx-icon>
             {{message}}
-            <button #rejectButton *ngIf="rejectButtonText" (click)="reject()">{{rejectButtonText}}</button>
+            <button #dismissButton *ngIf="dismissButtonText" (click)="dismiss()">{{dismissButtonText}}</button>
             <button #confirmButton *ngIf="confirmButtonText" (click)="confirm()">{{confirmButtonText}}</button>
         </div>
         <ng-content *ngIf="!useDefaultTemplate"></ng-content>
