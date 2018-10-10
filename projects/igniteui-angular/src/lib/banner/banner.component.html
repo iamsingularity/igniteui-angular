@@ -11,8 +11,8 @@
             </div>
             <div class="igx-banner__actions">
                 <div class="igx-banner__row">
-                    <button igxButton="flat" igxRipple #rejectButton *ngIf="rejectButtonText" (click)="reject()">
-                        {{rejectButtonText}}
+                    <button igxButton="flat" igxRipple #dismissButton *ngIf="dismissButtonText" (click)="dismiss()">
+                        {{dismissButtonText}}
                     </button>
                     <button igxButton="flat" igxRipple #confirmButton *ngIf="confirmButtonText" (click)="confirm()">
                         {{confirmButtonText}}

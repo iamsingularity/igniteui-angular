@@ -66,7 +66,7 @@ export class IgxBannerComponent {
      */
     @Input()
     public get useDefaultTemplate(): boolean {
-        return this.message !== '' && (this.dismissButtonText !== '' || this.confirmButtonText !== '');
+        return (this.message && this.message !== '') && (this.dismissButtonText !== '' || this.confirmButtonText !== '');
     }
 
     /**
