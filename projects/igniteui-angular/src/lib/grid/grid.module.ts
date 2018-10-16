@@ -54,6 +54,7 @@ import { IgxDragDropModule } from '../directives/dragdrop/dragdrop.directive';
 import { IgxGridFilterExpressionComponent } from './grid-filtering-expression.component';
 import { IgxButtonGroupModule } from '../buttonGroup/buttonGroup.component';
 import { IgxColumnPinningModule } from './column-pinning.component';
+import { IgxTranslatePipe } from '../core/i18n/translate.pipe';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { IgxColumnPinningModule } from './column-pinning.component';
     IgxGridFilterConditionPipe,
     IgxGridFilterExpressionComponent,
     IgxDatePipeComponent,
-    IgxDecimalPipeComponent
+    IgxDecimalPipeComponent,
+    IgxTranslatePipe,
   ],
   entryComponents: [
     IgxColumnComponent,

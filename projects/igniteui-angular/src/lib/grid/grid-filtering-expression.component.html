@@ -2,7 +2,7 @@
     <igx-input-group type="box" *ngIf="!unaryCondition">
         <input #input igxInput
         type="text"
-        placeholder="Value"
+        placeholder="{{ 'Value' | translate }}"
         autocomplete="off"
         [(ngModel)]="value"
         [igxFocus]="true"/>

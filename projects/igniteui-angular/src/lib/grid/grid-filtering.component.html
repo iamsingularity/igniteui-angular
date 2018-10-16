@@ -35,8 +35,8 @@
     </igx-grid-filter-expression>
 
     <div class="igx-filtering__options-bgroup">
-        <button igxButton igxRipple (click)="clearFiltering()" [disabled]="disabled">Reset</button>
-        <button igxButton igxRipple (click)="directive.close()">Close</button>
+        <button igxButton igxRipple (click)="clearFiltering()" [disabled]="disabled">{{ 'Reset' | translate}}</button>
+        <button igxButton igxRipple (click)="directive.close()">{{ 'Close' | translate}}</button>
     </div>
 
 </div>

@@ -23,6 +23,7 @@ import { IgxGridFilterExpressionComponent } from './grid-filtering-expression.co
 import { FilteringLogic, IFilteringExpression } from '../data-operations/filtering-expression.interface';
 import { OverlaySettings, HorizontalAlignment } from '../services/overlay/utilities';
 import { ConnectedPositioningStrategy } from '../services/overlay/position/connected-positioning-strategy';
+import { TranslateComponent, IgxTranslatePipe } from '../core/i18n/translate.pipe';
 
 /**
  *@hidden
@@ -31,7 +32,8 @@ import { ConnectedPositioningStrategy } from '../services/overlay/position/conne
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
     selector: 'igx-grid-filter',
-    templateUrl: './grid-filtering.component.html'
+    templateUrl: './grid-filtering.component.html',
+    providers:[{provide: TranslateComponent, useValue: TranslateComponent.IgxGridComponent}]
 })
 export class IgxGridFilterComponent implements OnInit, OnDestroy, DoCheck {
 
@@ -61,6 +63,7 @@ export class IgxGridFilterComponent implements OnInit, OnDestroy, DoCheck {
         return `igx-filtering`;
     }
 
+    public translate = new IgxTranslatePipe(TranslateComponent.IgxGridComponent);
     public filteringLogicOptions: any[];
     public isSecondConditionVisible = false;
     protected chunkLoaded = new Subscription();
@@ -84,15 +87,14 @@ export class IgxGridFilterComponent implements OnInit, OnDestroy, DoCheck {
     protected logicOperators: IgxButtonGroupComponent;
 
     constructor(public gridAPI: IgxGridAPIService, public cdr: ChangeDetectorRef, private elementRef: ElementRef) {
-
         this.filteringLogicOptions = [
             {
-                label: 'And',
+                label: this.translate.transform('And'),
                 togglable: true,
                 ripple: 'none'
             },
             {
-                label: 'Or',
+                label: this.translate.transform('Or'),
                 togglable: true,
                 ripple: 'none'
             }
