@@ -552,6 +552,22 @@ export class IgxColumnMovingDropDirective extends IgxDropDirective implements On
     }
 }
 
+@Directive({
+    selector: '[igxHeaderGroupSize]'
+})
+export class IgxHeaderGroupSizeDirective {
+
+    @Input('igxHeaderGroupSize')
+    public column;
+
+    @HostBinding('style.max-width')
+    @HostBinding('style.min-width')
+    @HostBinding('style.flex-basis')
+    get width() {
+        return this.column.width;
+    }
+}
+
 /**
  *@hidden
  */

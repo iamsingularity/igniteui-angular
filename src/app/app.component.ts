@@ -144,6 +144,11 @@ export class AppComponent implements OnInit {
             name: 'Grid GroupBy'
         },
         {
+            link: '/gridPercentage',
+            icon: 'view_column',
+            name: 'Grid Percentage'
+        },
+        {
             link: '/gridPerformance',
             icon: 'view_column',
             name: 'Grid Performance'
