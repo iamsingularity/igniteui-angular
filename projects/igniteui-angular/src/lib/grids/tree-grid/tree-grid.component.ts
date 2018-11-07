@@ -503,8 +503,4 @@ export class IgxTreeGridComponent extends IgxGridBaseComponent {
             templateID: 'dataRow'
         };
     }
-
-    protected writeToData(rowIndex: number, value: any) {
-        mergeObjects(this.flatData[rowIndex], value);
-    }
 }

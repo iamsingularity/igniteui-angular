@@ -4424,9 +4424,6 @@ export abstract class IgxGridBaseComponent implements OnInit, OnDestroy, AfterCo
         return rowChanges ? Object.keys(rowChanges).length : 0;
     }
 
-    protected writeToData(rowIndex: number, value: any) {
-        mergeObjects(this.data[rowIndex], value);
-    }
     /**
      * TODO: Refactor
      * @hidden
