@@ -18,7 +18,7 @@ const CSS_CLASS_BANNER_ACTIONS = 'igx-banner__actions';
 const CSS_CLASS_BANNER_ILLUSTRATION = 'igx-banner__illustration';
 const CSS_CLASS_BANNER_TEXT = 'igx-banner__text';
 
-describe('igxBanner', () => {
+fdescribe('igxBanner', () => {
     beforeEach(async(() => {
         // TestBed.resetTestingModule();
         TestBed.configureTestingModule({
@@ -50,12 +50,13 @@ describe('igxBanner', () => {
             expect(fixture.componentInstance).toBeDefined();
             expect(banner).toBeDefined();
             expect(banner.collapsed).toBeTruthy();
-            expect(banner.useDefaultTemplate).toBeTruthy();
+            expect(banner.useDefaultTemplate).toBeFalsy()
             expect(banner.message).toBeUndefined();
             expect(banner.icon).toBeUndefined();
             expect(banner.confirmButtonText).toBeUndefined();
             expect(banner.dismissButtonText).toBeUndefined();
         });
+
         it('Should initialize properly banner component with message and a button', () => {
             const fixture = TestBed.createComponent(IgxBannerOneButtonComponent);
             fixture.detectChanges();
@@ -71,6 +72,7 @@ describe('igxBanner', () => {
             expect(banner.dismissButtonText).toBeDefined();
             expect(banner.dismissButtonText).toEqual('TURN ON WIFI');
         });
+
         it('Should initialize properly banner component with message and buttons', () => {
             const fixture: ComponentFixture<IgxBannerSampleComponent> = TestBed.createComponent(IgxBannerSampleComponent);
             fixture.detectChanges();
@@ -88,6 +90,7 @@ describe('igxBanner', () => {
             expect(banner.dismissButtonText).toBeDefined();
             expect(banner.dismissButtonText).toEqual('DISMISS');
         });
+
         it('Should initialize properly banner component with custom template', fakeAsync(() => {
             const fixture = TestBed.createComponent(IgxCustomBannerComponent);
             fixture.detectChanges();
@@ -106,6 +109,7 @@ describe('igxBanner', () => {
             fixture.detectChanges();
             expect(banner.collapsed).toBeFalsy();
         }));
+
         it('Should properly accept input properties', () => {
             const fixture: ComponentFixture<IgxBannerEmptyComponent> = TestBed.createComponent(IgxBannerEmptyComponent);
             fixture.detectChanges();
@@ -113,7 +117,7 @@ describe('igxBanner', () => {
             expect(fixture.componentInstance).toBeDefined();
             expect(banner).toBeDefined();
             expect(banner.collapsed).toBeTruthy();
-            expect(banner.useDefaultTemplate).toBeTruthy();
+            expect(banner.useDefaultTemplate).toBeFalsy();
             expect(banner.message).toBeUndefined();
             expect(banner.icon).toBeUndefined();
             expect(banner.confirmButtonText).toBeUndefined();
@@ -122,22 +126,32 @@ describe('igxBanner', () => {
             const bannerMsg = 'Your password has expired, please reset your credentials to log in.';
             const dismissText = 'DISMISS';
             const confirmationText = 'RESET';
+            const icon = 'lock';
 
             banner.message = bannerMsg;
             expect(banner.message).toBeDefined();
             expect(banner.message).toEqual(bannerMsg);
+            expect(banner.useDefaultTemplate).toBeFalsy();
+
             banner.dismissButtonText = dismissText;
             expect(banner.dismissButtonText).toBeDefined();
             expect(banner.dismissButtonText).toEqual(dismissText);
+            expect(banner.useDefaultTemplate).toBeTruthy();
+
             banner.confirmButtonText = confirmationText;
             expect(banner.confirmButtonText).toBeDefined();
             expect(banner.confirmButtonText).toEqual(confirmationText);
-            banner.icon = 'lock';
+            expect(banner.useDefaultTemplate).toBeTruthy();
+
+            banner.icon = icon;
             expect(banner.icon).toBeDefined();
-            expect(banner.icon).toEqual('lock');
+            expect(banner.icon).toEqual(icon);
+            expect(banner.useDefaultTemplate).toBeTruthy();
         });
+
         it('Should properly set base classes', () => {
         });
+
         it('Should initialize banner with at least one and up to two buttons', () => {
         });
         it('Should position buttons under the banner content', () => {
@@ -149,7 +163,7 @@ describe('igxBanner', () => {
     });
 
     describe('Action tests: ', () => {
-        it('Should dismiss/confirm banner on buton clicking', fakeAsync(() => {
+        it('Should dismiss/confirm banner on button clicking', fakeAsync(() => {
             const fixture = TestBed.createComponent(IgxBannerSampleComponent);
             fixture.detectChanges();
             const banner = fixture.componentInstance.banner;
@@ -248,7 +262,7 @@ describe('igxBanner', () => {
     describe('Rendering tests: ', () => {
         it('Should apply all appropriate classes on initialization_default template', fakeAsync(() => {
         }));
-        fit('Should apply all appropriate classes on initialization_custom template', fakeAsync(() => {
+        it('Should apply all appropriate classes on initialization_custom template', fakeAsync(() => {
             const fixture = TestBed.createComponent(IgxCustomBannerComponent);
             fixture.detectChanges();
             const banner = fixture.componentInstance.banner;
@@ -327,7 +341,7 @@ export class IgxBannerEmptyComponent {
 @Component({
     template: `
 <div style = "width:300px">
-<igx-banner message="Unfortunately, the credit card did not go through, please try again."></igx-banner>
+    <igx-banner message="Unfortunately, the credit card did not go through, please try again."></igx-banner>
 </div>
 `
 })
@@ -339,10 +353,7 @@ export class IgxBannerBasicComponent {
 @Component({
     template: `
 <div style = "width:300px">
-<igx-banner
-message="You have lost connection to the internet."
-dismissButtonText='TURN ON WIFI'>
-    </igx-banner>
+    <igx-banner message="You have lost connection to the internet." dismissButtonText='TURN ON WIFI'></igx-banner>
 </div>
 `
 })
@@ -354,11 +365,11 @@ export class IgxBannerOneButtonComponent {
 @Component({
     template: `
 <div style = "width:300px">
-<igx-banner
-message="Unfortunately, the credit card did not go through, please try again."
-dismissButtonText='DISMISS'
-confirmButtonText='UPDATE'
-icon='error'>
+    <igx-banner
+        message="Unfortunately, the credit card did not go through, please try again."
+        dismissButtonText='DISMISS'
+        confirmButtonText='UPDATE'
+        icon='error'>
     </igx-banner>
 </div>
 `
@@ -371,24 +382,24 @@ export class IgxBannerSampleComponent {
 @Component({
     template: `
 <div style = "width:300px">
-<igx-banner>
-<igx-card>
-        <igx-card-header class="compact">
-            <igx-avatar src="https://www.infragistics.com/angular-demos/assets/images/card/avatars/brad_stanley.jpg"
-            roundShape="true"></igx-avatar>
-            <div class="igx-card-header__tgroup">
-                <h3 class="igx-card-header__title--small">Brad Stanley</h3>
-                <h5 class="igx-card-header__subtitle">Audi AG</h5>
-            </div>
-        </igx-card-header>
-        <igx-card-content>
-            <p class="igx-card-content__text">Brad Stanley has requested to follow you.</p>
-        </igx-card-content>
-        <igx-card-actions >
-             <button igxButton igxRipple >Dismiss</button>
-            <button igxButton igxRipple >Approve</button>
-        </igx-card-actions>
-    </igx-card>
+    <igx-banner>
+        <igx-card>
+            <igx-card-header class="compact">
+                <igx-avatar src="https://www.infragistics.com/angular-demos/assets/images/card/avatars/brad_stanley.jpg" roundShape="true">
+                </igx-avatar>
+                <div class="igx-card-header__tgroup">
+                    <h3 class="igx-card-header__title--small">Brad Stanley</h3>
+                    <h5 class="igx-card-header__subtitle">Audi AG</h5>
+                </div>
+            </igx-card-header>
+            <igx-card-content>
+                <p class="igx-card-content__text">Brad Stanley has requested to follow you.</p>
+            </igx-card-content>
+            <igx-card-actions >
+                <button igxButton igxRipple >Dismiss</button>
+                <button igxButton igxRipple >Approve</button>
+            </igx-card-actions>
+        </igx-card>
     </igx-banner>
 </div>
 `

@@ -6,13 +6,22 @@ import { IgxBannerComponent } from 'igniteui-angular';
     templateUrl: `banner.sample.html`
 })
 export class BannerSampleComponent {
-    @ViewChild(IgxBannerComponent) banner: IgxBannerComponent;
+    @ViewChild('banner') banner: IgxBannerComponent;
+    @ViewChild('banner2') banner2: IgxBannerComponent;
 
     public toggle() {
         if (this.banner.collapsed) {
             this.banner.open();
         } else {
             this.banner.close();
+        }
+    }
+
+    public toggle2() {
+        if (this.banner2.collapsed) {
+            this.banner2.open();
+        } else {
+            this.banner2.close();
         }
     }
 

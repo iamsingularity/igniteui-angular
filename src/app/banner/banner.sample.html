@@ -1,14 +1,21 @@
 <div class="sample-wrapper">
-    <igx-banner message="This is default template's message!" icon="star" rejectButtonText='Reject!!' confirmButtonText='Confirm'
+    <igx-banner #banner message="This is default template's message!" icon="star" [dismissButtonText]="'Reject!!'" [confirmButtonText]="'Confirm'"
         (onOpen)="onOpen($event)" (onClose)="onClose($event)" (onButtonClick)="onButtonClick($event)">
         This is some customer template
+    </igx-banner>
+    <igx-banner #banner2 (onOpen)="onOpen($event)" (onClose)="onClose($event)" (onButtonClick)="onButtonClick($event)">
+        <h1>
+            Banner with some custom template
+        </h1>
+
     </igx-banner>
     <app-page-header title="Banner">
         Allows the user to add banners to the application.
     </app-page-header>
     <div class="sample-content">
         <section class="sample-column">
-            <button (click)="toggle()">Toggle</button>
+            <button igxButton="flat" igxRipple (click)="toggle()">Toggle</button>
+            <button igxButton="flat" igxRipple (click)="toggle2()">Toggle2</button>
         </section>
     </div>
 </div>
