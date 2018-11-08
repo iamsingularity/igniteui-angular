@@ -77,13 +77,8 @@
         justify-content: space-between;
         padding: map-get($banner-padding, 'comfortable');
         background: --var($theme, 'banner-background');
-<<<<<<< HEAD
-        border-bottom: 1px solid --var($theme, 'banner-border-color');
-        align-items: center;
-=======
         align-items: center;
         position: relative;
->>>>>>> remotes/origin/master
     }
 
     %igx-banner__illustration {
@@ -97,8 +92,6 @@
         color: --var($theme, 'banner-illustration-color');
     }
 
-<<<<<<< HEAD
-=======
     %igx-banner__border-top {
         border-top: 1px solid --var($theme, 'banner-border-color');
         top: -1px
@@ -109,7 +102,6 @@
         top: 0;
     }
 
->>>>>>> remotes/origin/master
     %igx-banner__text {
         color: --var($theme, 'banner-message-color');
         flex: 1 0 0%;
