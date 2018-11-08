@@ -18,7 +18,7 @@ const CSS_CLASS_BANNER_ACTIONS = 'igx-banner__actions';
 const CSS_CLASS_BANNER_ILLUSTRATION = 'igx-banner__illustration';
 const CSS_CLASS_BANNER_TEXT = 'igx-banner__text';
 
-fdescribe('igxBanner', () => {
+describe('igxBanner', () => {
     beforeEach(async(() => {
         // TestBed.resetTestingModule();
         TestBed.configureTestingModule({
