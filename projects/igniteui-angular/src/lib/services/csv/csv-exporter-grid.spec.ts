@@ -1,7 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 import { SortingDirection } from '../../data-operations/sorting-expression.interface';
-import { IgxGridModule } from '../../grid';
-import { IgxGridComponent } from '../../grid/grid.component';
+import { IgxGridModule } from '../../grids/grid';
+import { IgxGridComponent } from '../../grids/grid/grid.component';
 import { FileContentData } from '../excel/test-data.service.spec';
 import { IColumnExportingEventArgs, IRowExportingEventArgs } from '../exporter-common/base-export-service';
 import { ExportUtilities } from '../exporter-common/export-utilities';
@@ -14,7 +14,10 @@ import { ReorderedColumnsComponent, GridIDNameJobTitleComponent } from '../../te
 import { SampleTestData } from '../../test-utils/sample-test-data.spec';
 import { first } from 'rxjs/operators';
 
+import { configureTestSuite } from '../../test-utils/configure-suite';
+
 describe('CSV Grid Exporter', () => {
+    configureTestSuite();
     let exporter: IgxCsvExporterService;
     let actualData: FileContentData;
     let options: IgxCsvExporterOptions;
@@ -31,19 +34,19 @@ describe('CSV Grid Exporter', () => {
         .compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach(async(() => {
         exporter = new IgxCsvExporterService();
         actualData = new FileContentData();
         options = new IgxCsvExporterOptions('CsvGridExport', CsvFileTypes.CSV);
 
         // Spy the saveBlobToFile method so the files are not really created
         spyOn(ExportUtilities as any, 'saveBlobToFile');
-    });
+    }));
 
-    afterEach(() => {
+    afterEach(async(() => {
         exporter.onColumnExport.unsubscribe();
         exporter.onRowExport.unsubscribe();
-    });
+    }));
 
     it('should export grid as displayed.', () => {
         const currentGrid: IgxGridComponent = null;
@@ -298,104 +301,6 @@ describe('CSV Grid Exporter', () => {
         const wrapper = await getExportedData(grid, options);
         wrapper.verifyData('');
     });
-
-    // it("should honor 'exportCurrentlyVisiblePageOnly' option.", async(() => {
-    //     const fix = TestBed.createComponent(GridMarkupPagingDeclarationComponent);
-    //     fix.detectChanges();
-
-    //     const grid = fix.componentInstance.grid;
-    //     grid.paging = true;
-    //     options.exportCurrentlyVisiblePageOnly = true;
-
-    //     fix.whenStable().then(() => {
-    //         fix.detectChanges();
-    //         getExportedData(grid, options).then((wrapper) => {
-    //             wrapper.verifyDataFilesContent(actualData.simpleGridDataPage1, "Only page 1 should have been exported!");
-
-    //             options.exportCurrentlyVisiblePageOnly = false;
-    //             fix.detectChanges();
-    //             getExportedData(grid, options).then((wrapper2) => {
-    //                 wrapper2.verifyDataFilesContent(actualData.simpleGridDataFull, "All data should have been exported!");
-    //             });
-    //         });
-    //     });
-    // }));
-
-    // it("should export currently visible grid page only.", async(() => {
-    //     const fix = TestBed.createComponent(GridMarkupPagingDeclarationComponent);
-    //     fix.detectChanges();
-
-    //     const grid = fix.componentInstance.grid;
-    //     fix.whenStable().then(() => {
-    //         expect(grid.rowList.length).toEqual(3, "Invalid number of rows initialized!");
-    //         options.exportCurrentlyVisiblePageOnly = true;
-
-    //         getExportedData(grid, options).then((wrapper) => {
-    //             wrapper.verifyStructure();
-    //             wrapper.verifyTemplateFilesContent();
-    //             wrapper.verifyDataFilesContent(actualData.simpleGridDataPage1, "Page 1 should have been exported!");
-
-    //             grid.paginate(1);
-    //             grid.cdr.detectChanges();
-    //             fix.whenStable().then(() => {
-    //                 fix.detectChanges();
-    //                 getExportedData(grid, options).then((wrapper2) => {
-    //                     wrapper2.verifyDataFilesContent(actualData.simpleGridDataPage2, "Page 2 should have been exported!");
-    //                 });
-    //             });
-    //         });
-    //     });
-    // }));
-
-    // it("should honor the change of items per page.", async(() => {
-    //     const fix = TestBed.createComponent(GridMarkupPagingDeclarationComponent);
-    //     fix.detectChanges();
-
-    //     const grid = fix.componentInstance.grid;
-    //     fix.whenStable().then(() => {
-    //         expect(grid.rowList.length).toEqual(3, "Invalid number of rows initialized!");
-    //         options.exportCurrentlyVisiblePageOnly = true;
-
-    //         getExportedData(grid, options).then((wrapper) => {
-    //             wrapper.verifyDataFilesContent(actualData.simpleGridDataPage1, "Three rows should have been exported!");
-
-    //             grid.perPage = 5;
-    //             grid.cdr.detectChanges();
-    //             fix.whenStable().then(() => {
-    //                 fix.detectChanges();
-    //                 expect(grid.rowList.length).toEqual(5, "Invalid number of rows initialized!");
-    //                 getExportedData(grid, options).then((wrapper2) => {
-    //                     wrapper2.verifyDataFilesContent(actualData.simpleGridDataPage1FiveRows, "5 rows should have been exported!");
-    //                 });
-    //             });
-    //         });
-    //     });
-    // }));
-
-    // it("should fire 'onRowExport' for each visible grid row.", async(() => {
-    //     const fix = TestBed.createComponent(GridIDNameJobTitleComponent);
-    //     fix.detectChanges();
-    //     const grid = fix.componentInstance.grid;
-
-    //     const rows = [];
-    //     exporter.onRowExport.subscribe((value: RowExportingEventArgs) => {
-    //         rows.push({ data: value.rowData, index: value.rowIndex });
-    //     });
-
-    //     grid.paging = true;
-    //     grid.perPage = 3;
-
-    //     fix.whenStable().then(() => {
-    //         fix.detectChanges();
-    //         getExportedData(grid, options).then(() => {
-    //             expect(rows.length).toBe(3);
-    //             for (let i = 0; i < rows.length; i++) {
-    //                 expect(rows[i].index).toBe(i);
-    //                 expect(JSON.stringify(rows[i].data)).toBe(JSON.stringify(data[i]));
-    //             }
-    //         });
-    //     });
-    // }));
 
     function getExportedData(grid, csvOptions: IgxCsvExporterOptions) {
         const result = new Promise<CSVWrapper>((resolve) => {

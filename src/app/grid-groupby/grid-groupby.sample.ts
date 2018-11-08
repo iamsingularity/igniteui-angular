@@ -1,7 +1,8 @@
 import { Component, Injectable, ViewChild, OnInit } from '@angular/core';
 
-import {DataType, IgxButtonDirective, IgxColumnComponent, IgxGridComponent,  SortingDirection, ISortingExpression } from 'igniteui-angular';
-import { DisplayDensity } from 'projects/igniteui-angular/src/lib/core/utils';
+import { IgxGridComponent,  SortingDirection, ISortingExpression, IGridFocusChangeEventArgs } from 'igniteui-angular';
+import { DisplayDensity } from 'projects/igniteui-angular/src/lib/core/displayDensity';
+import { detectChanges } from '@angular/core/src/render3';
 
 @Component({
     providers: [],
@@ -13,8 +14,11 @@ import { DisplayDensity } from 'projects/igniteui-angular/src/lib/core/utils';
 export class GridGroupBySampleComponent implements OnInit {
     @ViewChild('grid1') public grid1: IgxGridComponent;
     public data: Array<any>;
+    public hideGroupedColumns = false;
     public columns: Array<any>;
+    public groupingExpressions: Array<ISortingExpression>;
     public ngOnInit(): void {
+
         this.columns = [
             { field: 'ID', width: 100, hidden: true },
             { field: 'CompanyName', width: 300, groupable: true  },
@@ -28,6 +32,14 @@ export class GridGroupBySampleComponent implements OnInit {
             { field: 'Phone', width: 150, groupable: true  },
             { field: 'Fax', width: 150, groupable: true  }
         ];
+        this.groupingExpressions =  [
+            {
+                fieldName: 'CompanyName',
+                dir: SortingDirection.Asc
+            }
+        ];
+        this.hideGroupedColumns = true;
+
         /* tslint:disable */
         this.data = [
             { 'ID': 'ALFKI', 'CompanyName': 'Alfreds Futterkiste', 'ContactName': 'Maria Anders', 'ContactTitle': 'Sales Representative', 'Address': 'Obere Str. 57', 'City': 'Berlin', 'Region': null, 'PostalCode': '12209', 'Country': 'Germany', 'Phone': '030-0074321', 'Fax': '030-0076545' },
@@ -78,6 +90,9 @@ export class GridGroupBySampleComponent implements OnInit {
         }
         this.grid1.groupBy({ fieldName: name, dir: SortingDirection.Asc, ignoreCase: false });
     }
+    toggleGroupedVisibility(event){
+        this.grid1.hideGroupedColumns = !event.checked;
+    }
     toggleDensity() {
         switch (this._density) {
             case DisplayDensity.comfortable: this.density = DisplayDensity.cosy; break;
@@ -87,5 +102,35 @@ export class GridGroupBySampleComponent implements OnInit {
     }
     getRowsList() {
         console.log(this.grid1.rowList);
+    }
+
+    onGroupingDoneHandler(event){
+        console.log("onGroupingDone: ");
+        console.log(event);
+    }
+  
+    groupMultiple() {
+        const expr = [
+            {fieldName: "ContactTitle", dir: 1, ignoreCase: true},
+            {fieldName: "Address", dir: 2, ignoreCase: true},
+            {fieldName: "Country", dir: 2, ignoreCase: true}
+        ];
+        this.grid1.groupBy(expr);
+    }
+  
+    ungroupMultiple() {
+        this.grid1.clearGrouping(["Address", "Country"]);
+    }
+  
+    groupUngroupMultiple() {
+        const expr = [
+            {fieldName: "ContactTitle", dir: 1, ignoreCase: true},
+            {fieldName: "Address", dir: 2, ignoreCase: true},
+        ];
+        this.grid1.groupingExpressions = expr;
+    }
+
+    changeFocus(event: IGridFocusChangeEventArgs) {
+        console.log(event);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { IgxNavigationDrawerComponent, IgxIconService } from 'igniteui-angular';
@@ -12,6 +12,9 @@ export class AppComponent implements OnInit {
 
     @ViewChild('navdrawer', { read: IgxNavigationDrawerComponent })
     navdrawer;
+
+    @HostBinding('attr.id')
+    appId = 'igniteui-demo-app';
 
     drawerState = {
         enableGestures: true,
@@ -41,6 +44,11 @@ export class AppComponent implements OnInit {
             name: 'Banner'
         },
         {
+            link: '/bottom-navigation',
+            icon: 'tab',
+            name: 'Bottom Navigation'
+        },
+        {
             link: '/buttonGroup',
             icon: 'group_work',
             name: 'Button Group'
@@ -61,14 +69,14 @@ export class AppComponent implements OnInit {
             name: 'Carousel'
         },
         {
+            link: '/chip',
+            icon: 'android',
+            name: 'Chips'
+        },
+        {
             link: '/combo',
             icon: 'arrow_drop_down_circle',
             name: 'Combo'
-        },
-        {
-            link: '/expansionPanel',
-            icon: 'expand_more',
-            name: 'ExpansionPanel'
         },
         {
             link: '/datePicker',
@@ -76,9 +84,9 @@ export class AppComponent implements OnInit {
             name: 'DatePicker'
         },
         {
-            link: '/timePicker',
-            icon: 'date_range',
-            name: 'TimePicker'
+            link: '/dialog',
+            icon: 'all_out',
+            name: 'Dialog'
         },
         {
             link: '/dropDown',
@@ -91,14 +99,24 @@ export class AppComponent implements OnInit {
             name: 'Drag and Drop'
         },
         {
+            link: '/expansionPanel',
+            icon: 'expand_more',
+            name: 'ExpansionPanel'
+        },
+        {
+            link: '/inputs',
+            icon: 'web',
+            name: 'Forms'
+        },
+        {
             link: '/grid',
             icon: 'view_column',
             name: 'Grid'
         },
         {
-            link: '/gridColumnMoving',
+            link: '/gridCellEditing',
             icon: 'view_column',
-            name: 'Grid Column Moving'
+            name: 'Grid Cell Editing'
         },
         {
             link: '/gridConditionalCellStyling',
@@ -106,14 +124,19 @@ export class AppComponent implements OnInit {
             name: 'Grid Cell Styling'
         },
         {
+            link: '/gridColumnGroups',
+            icon: 'view_column',
+            name: 'Grid Column Groups'
+        },
+        {
+            link: '/gridColumnMoving',
+            icon: 'view_column',
+            name: 'Grid Column Moving'
+        },
+        {
             link: '/gridColumnPinning',
             icon: 'view_column',
             name: 'Grid Column Pinning'
-        },
-        {
-            link: '/gridGroupBy',
-            icon: 'view_column',
-            name: 'Grid GroupBy'
         },
         {
             link: '/gridColumnResizing',
@@ -121,9 +144,9 @@ export class AppComponent implements OnInit {
             name: 'Grid Column Resizing'
         },
         {
-            link: '/gridColumnGroups',
+            link: '/gridGroupBy',
             icon: 'view_column',
-            name: 'Grid Column Groups'
+            name: 'Grid GroupBy'
         },
         {
             link: '/gridPerformance',
@@ -136,14 +159,9 @@ export class AppComponent implements OnInit {
             name: 'Grid Remote Virtualization'
         },
         {
-            link: '/gridSummary',
+            link: '/gridRowEdit',
             icon: 'view_column',
-            name: 'Grid Summary'
-        },
-        {
-            link: '/gridCellEditing',
-            icon: 'view_column',
-            name: 'Grid Cell Editing'
+            name: 'Grid Row Editing'
         },
         {
             link: '/gridSelection',
@@ -151,19 +169,24 @@ export class AppComponent implements OnInit {
             name: 'Grid Selection'
         },
         {
+            link: '/gridSummary',
+            icon: 'view_column',
+            name: 'Grid Summary'
+        },
+        {
             link: '/gridToolbar',
             icon: 'view_column',
             name: 'Grid Toolbar'
         },
         {
-            link: '/dialog',
-            icon: 'all_out',
-            name: 'Dialog'
+            link: '/treeGrid',
+            icon: 'view_column',
+            name: 'Tree Grid'
         },
         {
-            link: '/inputs',
-            icon: 'web',
-            name: 'Forms'
+            link: '/treeGridFlatData',
+            icon: 'view_column',
+            name: 'Tree Grid Flat Data'
         },
         {
             link: '/icon',
@@ -226,24 +249,19 @@ export class AppComponent implements OnInit {
             name: 'Snackbar'
         },
         {
-            link: '/bottom-navigation',
-            icon: 'tab',
-            name: 'Bottom Navigation'
-        },
-        {
             link: '/tabs',
             icon: 'tab',
             name: 'Tabs'
         },
         {
+            link: '/timePicker',
+            icon: 'date_range',
+            name: 'TimePicker'
+        },
+        {
             link: '/toast',
             icon: 'android',
             name: 'Toast'
-        },
-        {
-            link: '/chip',
-            icon: 'android',
-            name: 'Chips'
         }
     ];
 

@@ -394,3 +394,16 @@
     $split-arr: append($split-arr, $string);
     @return $split-arr;
 }
+
+/// @ignore
+@function get-theme($themes, $theme)  {
+    @if type-of($themes) == 'map' and map-has-key($themes, $theme) {
+        @return map-get($themes, $theme);
+    }
+
+    @if (function-exists('get-function')) {
+        @return call(get-function(#{$theme}-theme));
+    } @else {
+        @return call((#{$theme}-theme));
+    }
+}
