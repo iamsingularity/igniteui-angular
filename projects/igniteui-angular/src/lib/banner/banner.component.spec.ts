@@ -401,12 +401,76 @@ describe('igxBanner', () => {
             expect(this.bannerMessageElement).toBeNull();
             expect(this.bannerActionsElement).toBeNull();
         }));
+
         it('Should not be dismissed on user actions outside the component', () => {
+            const fixture = TestBed.createComponent(IgxBannerSampleComponent);
+            fixture.detectChanges();
+            const banner = fixture.componentInstance.banner;
+            const targetDiv = document.createElement('DIV');
+            const bannerNode: HTMLElement = banner.elementRef.nativeElement;
+            targetDiv.style.height = '3000px';
+            targetDiv.style.width = '1000px';
+            targetDiv.style.backgroundColor = '#aa44bb';
+            targetDiv.tabIndex = 1;
+            bannerNode.parentNode.appendChild(targetDiv);
+            expect(banner.collapsed).toBeTruthy();
+            banner.open();
+            fixture.detectChanges();
+            expect(banner.collapsed).toBeFalsy();
+            targetDiv.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+            fixture.detectChanges();
+            expect(banner.collapsed).toBeFalsy();
+            targetDiv.click();
+            fixture.detectChanges();
+            expect(banner.collapsed).toBeFalsy();
+            targetDiv.focus();
+            fixture.detectChanges();
+            expect(banner.collapsed).toBeFalsy();
+            targetDiv.style.height = '3000px';
+            fixture.detectChanges();
+            targetDiv.dispatchEvent(new Event('scroll'));
+            fixture.detectChanges();
+            expect(banner.collapsed).toBeFalsy();
+            targetDiv.parentNode.removeChild(targetDiv);
         });
     });
 
     describe('Rendering tests: ', () => {
         it('Should apply all appropriate classes on initialization_default template', fakeAsync(() => {
+            const fixture = TestBed.createComponent(IgxBannerSampleComponent);
+            fixture.detectChanges();
+            const banner = fixture.componentInstance.banner;
+            const bannerNode: HTMLElement = banner.elementRef.nativeElement;
+            expect(banner.collapsed).toBeTruthy();
+            expect(bannerNode.childElementCount).toEqual(1); // collapsed expansion panel
+            expect(bannerNode.firstElementChild.childElementCount).toEqual(0); // no content
+            getBaseClassElements(fixture);
+            expect(this.bannerElement).toBeNull();
+            expect(this.bannerMessageElement).toBeNull();
+            expect(this.bannerIllustrationElement).toBeNull();
+            expect(this.bannerTextElement).toBeNull();
+            expect(this.bannerActionsElement).toBeNull();
+            expect(this.bannerRowElement).toBeNull();
+            banner.toggle();
+            tick();
+            fixture.detectChanges();
+            getBaseClassElements(fixture);
+            expect(this.bannerElement).not.toBeNull();
+            expect(this.bannerMessageElement).not.toBeNull();
+            expect(this.bannerIllustrationElement).not.toBeNull();
+            expect(this.bannerTextElement).not.toBeNull();
+            expect(this.bannerActionsElement).not.toBeNull();
+            expect(this.bannerRowElement).not.toBeNull();
+            banner.toggle();
+            tick();
+            fixture.detectChanges();
+            getBaseClassElements(fixture);
+            expect(this.bannerElement).toBeNull();
+            expect(this.bannerMessageElement).toBeNull();
+            expect(this.bannerIllustrationElement).toBeNull();
+            expect(this.bannerTextElement).toBeNull();
+            expect(this.bannerActionsElement).toBeNull();
+            expect(this.bannerRowElement).toBeNull();
         }));
         it('Should apply all appropriate classes on initialization_custom template', fakeAsync(() => {
             const fixture = TestBed.createComponent(IgxBannerCustomTemplateComponent);
