@@ -1,9 +1,18 @@
 <div class="sample-wrapper">
-    <igx-banner #banner message="This is default template's message!" icon="star" [dismissButtonText]="'Reject!!'" [confirmButtonText]="'Confirm'"
-        (onOpen)="onOpen($event)" (onClose)="onClose($event)" (onButtonClick)="onButtonClick($event)">
+    <igx-banner #banner
+        message="This is default template's message!"
+        icon="star"
+        [dismissButtonText]="'Reject!!'"
+        [confirmButtonText]="'Confirm'"
+        (onOpen)="onOpen($event)"
+        (onClose)="onClose($event)"
+        (onButtonClick)="onButtonClick($event)">
         This is some customer template
     </igx-banner>
-    <igx-banner #banner2 (onOpen)="onOpen($event)" (onClose)="onClose($event)" (onButtonClick)="onButtonClick($event)">
+    <igx-banner #banner2
+        (onOpen)="onOpen($event)"
+        (onClose)="onClose($event)"
+        (onButtonClick)="onButtonClick($event)">
         <h1>
             Banner with some custom template
         </h1>

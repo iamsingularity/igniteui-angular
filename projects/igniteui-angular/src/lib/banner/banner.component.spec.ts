@@ -58,7 +58,7 @@ describe('igxBanner', () => {
             expect(fixture.componentInstance).toBeDefined();
             expect(banner).toBeDefined();
             expect(banner.collapsed).toBeTruthy();
-            expect(banner.useDefaultTemplate).toBeFalsy()
+            expect(banner.useDefaultTemplate).toBeFalsy();
             expect(banner.message).toBeUndefined();
             expect(banner.icon).toBeUndefined();
             expect(banner.confirmButtonText).toBeUndefined();
@@ -112,7 +112,7 @@ describe('igxBanner', () => {
             expect(banner.confirmButtonText).toBeUndefined();
             expect(banner.dismissButtonText).toBeUndefined();
 
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
             expect(banner.collapsed).toBeFalsy();
@@ -171,7 +171,7 @@ describe('igxBanner', () => {
             expect(this.bannerRowElement).toBeNull();
 
             const banner = fixture.componentInstance.banner;
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
@@ -199,7 +199,7 @@ describe('igxBanner', () => {
             expect(this.bannerRowElement).toBeNull();
 
             const banner = fixture.componentInstance.banner;
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
@@ -212,14 +212,14 @@ describe('igxBanner', () => {
             expect(this.bannerActionsElement).toBeNull();
             expect(this.bannerRowElement).toBeNull();
 
-            banner.collapse();
+            banner.close();
             tick();
             fixture.detectChanges();
 
             const bannerMessage = 'Some dummy text for banner message';
             banner.message = bannerMessage;
 
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
@@ -232,14 +232,14 @@ describe('igxBanner', () => {
             expect(this.bannerActionsElement).toBeNull();
             expect(this.bannerRowElement).toBeNull();
 
-            banner.collapse();
+            banner.close();
             tick();
             fixture.detectChanges();
 
             const confirmButtonText = 'Confirm';
             banner.confirmButtonText = confirmButtonText;
 
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
@@ -258,7 +258,7 @@ describe('igxBanner', () => {
             fixture.detectChanges();
 
             const banner: IgxBannerComponent = fixture.componentInstance.banner;
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
@@ -275,7 +275,7 @@ describe('igxBanner', () => {
             fixture.detectChanges();
 
             const banner: IgxBannerComponent = fixture.componentInstance.banner;
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
@@ -284,7 +284,7 @@ describe('igxBanner', () => {
             const parentElement = fixture.debugElement.query(By.css('#wrapper'));
             const parentElementRect = parentElement.nativeElement.getBoundingClientRect();
 
-            const bannerElementRect = banner.element.nativeElement.getBoundingClientRect();
+            const bannerElementRect = banner.elementRef.nativeElement.getBoundingClientRect();
 
             expect(parentElementRect.left).toBe(bannerElementRect.left);
             expect(parentElementRect.top).toBe(bannerElementRect.top);
@@ -300,18 +300,18 @@ describe('igxBanner', () => {
             let pageContentElementTop = pageContentElement.nativeElement.getBoundingClientRect().top;
 
             const banner: IgxBannerComponent = fixture.componentInstance.banner;
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
-            const bannerElementRect = banner.element.nativeElement.getBoundingClientRect();
+            const bannerElementRect = banner.elementRef.nativeElement.getBoundingClientRect();
             expect(pageContentElementTop).toBe(bannerElementRect.top);
 
             pageContentElement = fixture.debugElement.query(By.css('#content'));
             pageContentElementTop = pageContentElement.nativeElement.getBoundingClientRect().top;
             expect(pageContentElementTop).toBe(bannerElementRect.bottom);
 
-            banner.collapse();
+            banner.close();
             tick();
             fixture.detectChanges();
 
@@ -328,21 +328,21 @@ describe('igxBanner', () => {
             const banner = fixture.componentInstance.banner;
             expect(banner.collapsed).toBeTruthy();
 
-            spyOn(banner.onExpanded, 'emit');
-            spyOn(banner.onCollapsed, 'emit');
+            spyOn(banner.onOpen, 'emit');
+            spyOn(banner.onClose, 'emit');
             spyOn(banner.onButtonClick, 'emit');
-            spyOn(banner, 'onExpansionPanelCollapsed').and.callThrough();
-            spyOn(banner, 'onExpansionPanelExpanded').and.callThrough();
-            spyOn(banner, 'expand').and.callThrough();
-            spyOn(banner, 'collapse').and.callThrough();
+            spyOn(banner, 'onExpansionPanelClose').and.callThrough();
+            spyOn(banner, 'onExpansionPanelOpen').and.callThrough();
+            spyOn(banner, 'open').and.callThrough();
+            spyOn(banner, 'close').and.callThrough();
 
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
-            expect(banner.expand).toHaveBeenCalledTimes(1);
-            expect(banner.onExpanded.emit).toHaveBeenCalledTimes(1);
-            expect(banner.onExpansionPanelExpanded).toHaveBeenCalledTimes(1);
+            expect(banner.open).toHaveBeenCalledTimes(1);
+            expect(banner.onOpen.emit).toHaveBeenCalledTimes(1);
+            expect(banner.onExpansionPanelOpen).toHaveBeenCalledTimes(1);
             expect(banner.collapsed).toBeFalsy();
 
             getBaseClassElements(fixture);
@@ -363,22 +363,22 @@ describe('igxBanner', () => {
             getBaseClassElements(fixture);
 
             expect(banner.onButtonClick.emit).toHaveBeenCalledTimes(1);
-            expect(banner.collapse).toHaveBeenCalledTimes(1);
-            expect(banner.onCollapsed.emit).toHaveBeenCalledTimes(1);
-            expect(banner.onExpansionPanelCollapsed).toHaveBeenCalledTimes(1);
+            expect(banner.close).toHaveBeenCalledTimes(1);
+            expect(banner.onClose.emit).toHaveBeenCalledTimes(1);
+            expect(banner.onExpansionPanelClose).toHaveBeenCalledTimes(1);
             expect(banner.collapsed).toBeTruthy();
             expect(this.bannerMessageElement).toBeNull();
             expect(this.bannerActionsElement).toBeNull();
 
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
 
             getBaseClassElements(fixture);
 
-            expect(banner.expand).toHaveBeenCalledTimes(2);
-            expect(banner.onExpanded.emit).toHaveBeenCalledTimes(2);
-            expect(banner.onExpansionPanelExpanded).toHaveBeenCalledTimes(2);
+            expect(banner.open).toHaveBeenCalledTimes(2);
+            expect(banner.onOpen.emit).toHaveBeenCalledTimes(2);
+            expect(banner.onExpansionPanelOpen).toHaveBeenCalledTimes(2);
             expect(banner.collapsed).toBeFalsy();
             expect(this.bannerMessageElement).not.toBeNull();
             expect(this.bannerIllustrationElement).not.toBeNull();
@@ -394,9 +394,9 @@ describe('igxBanner', () => {
             getBaseClassElements(fixture);
 
             expect(banner.onButtonClick.emit).toHaveBeenCalledTimes(2);
-            expect(banner.collapse).toHaveBeenCalledTimes(2);
-            expect(banner.onCollapsed.emit).toHaveBeenCalledTimes(2);
-            expect(banner.onExpansionPanelCollapsed).toHaveBeenCalledTimes(2);
+            expect(banner.close).toHaveBeenCalledTimes(2);
+            expect(banner.onClose.emit).toHaveBeenCalledTimes(2);
+            expect(banner.onExpansionPanelClose).toHaveBeenCalledTimes(2);
             expect(banner.collapsed).toBeTruthy();
             expect(this.bannerMessageElement).toBeNull();
             expect(this.bannerActionsElement).toBeNull();
@@ -417,7 +417,7 @@ describe('igxBanner', () => {
             expect(panel.attributes.getNamedItem('ng-reflect-collapsed').nodeValue).toEqual('true');
             expect(panel.childElementCount).toEqual(0);
 
-            banner.expand();
+            banner.open();
             tick();
             fixture.detectChanges();
             expect(panel.attributes.getNamedItem('ng-reflect-collapsed').nodeValue).toEqual('false');
@@ -468,6 +468,8 @@ describe('igxBanner', () => {
             expect(cardContent.childElementCount).toEqual(0);
 
             const cardActions = card.children[2];
+            expect(cardActions.firstElementChild.innerHTML).toBe('Dismiss');
+            expect(cardActions.lastElementChild.innerHTML).toBe('Approve');
         }));
     });
 

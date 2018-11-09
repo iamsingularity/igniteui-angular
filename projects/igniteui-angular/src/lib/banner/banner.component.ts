@@ -3,6 +3,7 @@ import { IgxExpansionPanelModule } from '../expansion-panel/expansion-panel.modu
 import { BrowserModule } from '@angular/platform-browser';
 import { IgxExpansionPanelComponent } from '../expansion-panel';
 import { IgxIconModule } from '../icon/index';
+import { IToggleView } from '../core/navigation';
 
 export interface BannerEventArgs {
     banner: IgxBannerComponent;
@@ -13,8 +14,8 @@ export interface BannerEventArgs {
     selector: 'igx-banner',
     templateUrl: 'banner.component.html'
 })
-export class IgxBannerComponent {
-    private _bannerEvent: BannerEventArgs = { banner: null, button: null };
+export class IgxBannerComponent implements IToggleView {
+    private _bannerEvent: BannerEventArgs;
 
     @ViewChild('expansionPanel')
     private _expansionPanel: IgxExpansionPanelComponent;
@@ -23,16 +24,16 @@ export class IgxBannerComponent {
      * Fires after the banner shows up
      */
     @Output()
-    public onExpanded = new EventEmitter<BannerEventArgs>();
+    public onOpen = new EventEmitter<BannerEventArgs>();
 
     /**
      * Fires after the banner hides
      */
     @Output()
-    public onCollapsed = new EventEmitter<BannerEventArgs>();
+    public onClose = new EventEmitter<BannerEventArgs>();
 
     /**
-     * Fires when one click either confirming or dismissive button
+     * Fires when one clicks either confirming or dismissive button
      */
     @Output()
     public onButtonClick = new EventEmitter<BannerEventArgs>();
@@ -61,9 +62,7 @@ export class IgxBannerComponent {
     @Input()
     public dismissButtonText: string;
 
-    /**
-     * Hidden
-     */
+    /** @hidden */
     @Input()
     public get useDefaultTemplate(): boolean {
         return (this.message !== undefined) && (this.dismissButtonText !== undefined || this.confirmButtonText !== undefined);
@@ -76,58 +75,62 @@ export class IgxBannerComponent {
         return this._expansionPanel.collapsed;
     }
 
-    constructor(public element: ElementRef) { }
+    /** @hidden */
+    public get element() {
+        return this.elementRef.nativeElement;
+    }
+
+    constructor(public elementRef: ElementRef) { }
 
     /**
      * Opens the banner
      */
-    public expand() {
-        this._bannerEvent.banner = this;
-        this._expansionPanel.expand();
+    public open() {
+        this._bannerEvent = { banner: this, button: null };
+        this._expansionPanel.open();
     }
 
     /**
      * Closes the banner
      */
-    public collapse() {
-        this._bannerEvent.banner = this;
-        this._expansionPanel.collapse();
+    public close() {
+        this._bannerEvent = { banner: this, button: null };
+        this._expansionPanel.close();
     }
 
     /**
-     * hidden
+     * Toggles the banner
      */
+    toggle() {
+        if (this.collapsed) {
+            this.open();
+        } else {
+            this.close();
+        }
+    }
+
+    /** @hidden */
     public dismiss() {
-        this._bannerEvent.button = 'dismiss';
-        this.collapse();
+        this._bannerEvent = { banner: this, button: 'dismiss' };
         this.onButtonClick.emit(this._bannerEvent);
+        this.close();
     }
 
-    /**
-     * hidden
-     */
+    /** @hidden */
     public confirm() {
-        this._bannerEvent.button = 'confirm';
-        this.collapse();
+        this._bannerEvent = { banner: this, button: 'confirm' };
         this.onButtonClick.emit(this._bannerEvent);
+        this.close();
     }
 
-    /**
-     * hidden
-     */
-    public onExpansionPanelExpanded(ev) {
-        this.onExpanded.emit(this._bannerEvent);
-        this._bannerEvent.banner = null;
-        this._bannerEvent.button = null;
+    /** @hidden */
+    public onExpansionPanelOpen(ev) {
+        this.onOpen.emit(this._bannerEvent);
     }
 
-    /**
-     * hidden
-     */
-    public onExpansionPanelCollapsed(ev) {
-        this.onCollapsed.emit(this._bannerEvent);
-        this._bannerEvent.banner = null;
-        this._bannerEvent.button = null;
+    /** @hidden */
+    public onExpansionPanelClose(ev) {
+        this.onClose.emit(this._bannerEvent);
     }
 }
 @NgModule({
@@ -135,5 +138,4 @@ export class IgxBannerComponent {
     exports: [IgxBannerComponent],
     imports: [IgxExpansionPanelModule, IgxIconModule, BrowserModule]
 })
-export class IgxBannerModule {
-}
+export class IgxBannerModule { }
