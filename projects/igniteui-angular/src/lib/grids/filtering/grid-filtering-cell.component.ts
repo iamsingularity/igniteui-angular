@@ -28,11 +28,10 @@ import { IgxGridNavigationService } from '../grid-navigation.service';
 })
 export class IgxGridFilteringCellComponent implements AfterViewInit, OnInit {
 
-    private expressionsList: ExpressionUI[];
     private baseClass = 'igx-grid__filtering-cell-indicator';
     private currentTemplate = null;
 
-    public visibleExpressionsList: ExpressionUI[];
+    public expressionsList: ExpressionUI[];
     public moreFiltersCount = 0;
 
     @Input()
@@ -134,6 +133,14 @@ export class IgxGridFilteringCellComponent implements AfterViewInit, OnInit {
         }
 
         eventArgs.stopPropagation();
+    }
+
+    /**
+     * Returns whether a chip with a given index is visible or not.
+     */
+    public isChipVisible(index: number) {
+        const expression = this.expressionsList[index];
+        return !!(expression && expression.isVisible);
     }
 
     /**
@@ -262,7 +269,7 @@ export class IgxGridFilteringCellComponent implements AfterViewInit, OnInit {
     }
 
     private updateVisibleFilters() {
-        this.visibleExpressionsList = cloneArray(this.expressionsList);
+        this.expressionsList.forEach((ex) => ex.isVisible = true);
 
         if (this.moreIcon) {
             this.filteringService.columnToMoreIconHidden.set(this.column.field, true);
@@ -294,9 +301,12 @@ export class IgxGridFilteringCellComponent implements AfterViewInit, OnInit {
                     }
                     this.moreFiltersCount = this.expressionsList.length - visibleChipsCount;
                     this.filteringService.columnToMoreIconHidden.set(this.column.field, false);
-                    this.visibleExpressionsList.splice(visibleChipsCount);
                     break;
                 }
+            }
+
+            for (let i = visibleChipsCount; i < this.expressionsList.length; i++) {
+                this.expressionsList[i].isVisible = false;
             }
             this.cdr.detectChanges();
         }

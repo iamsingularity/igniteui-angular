@@ -21,6 +21,7 @@ export class ExpressionUI {
     public beforeOperator: FilteringLogic;
     public afterOperator: FilteringLogic;
     public isSelected = false;
+    public isVisible = true;
 }
 
 /**
