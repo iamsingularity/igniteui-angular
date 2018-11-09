@@ -28,7 +28,6 @@ import { IgxGridNavigationService } from '../grid-navigation.service';
 })
 export class IgxGridFilteringCellComponent implements AfterViewInit, OnInit {
 
-    private rootExpressionsTree: FilteringExpressionsTree;
     private expressionsList: ExpressionUI[];
     private baseClass = 'igx-grid__filtering-cell-indicator';
     private currentTemplate = null;
@@ -255,13 +254,7 @@ export class IgxGridFilteringCellComponent implements AfterViewInit, OnInit {
         this.filteringService.removeExpression(this.column.field, indexToRemove);
 
         this.updateVisibleFilters();
-        this.filter();
-    }
-
-    private filter(): void {
-        this.rootExpressionsTree = this.filteringService.createSimpleFilteringTree(this.column.field);
-
-        this.filteringService.filter(this.column.field, this.rootExpressionsTree);
+        this.filteringService.filter(this.column.field);
     }
 
     private isMoreIconVisible(): boolean {
@@ -271,19 +264,18 @@ export class IgxGridFilteringCellComponent implements AfterViewInit, OnInit {
     private updateVisibleFilters() {
         this.visibleExpressionsList = cloneArray(this.expressionsList);
 
-        // TODO: revise the usage of this.cdr.detectChanges() here
-        this.cdr.detectChanges();
-
         if (this.moreIcon) {
             this.filteringService.columnToMoreIconHidden.set(this.column.field, true);
         }
+        this.cdr.detectChanges();
+
         if (this.chipsArea && this.expressionsList.length > 1) {
             const areaWidth = this.chipsArea.element.nativeElement.offsetWidth;
             let viewWidth = 0;
             const chipsAreaElements = this.chipsArea.element.nativeElement.children;
             let visibleChipsCount = 0;
             const moreIconWidth = this.moreIcon.nativeElement.offsetWidth -
-            parseInt(document.defaultView.getComputedStyle(this.moreIcon.nativeElement)['margin-left'], 10);
+                parseInt(document.defaultView.getComputedStyle(this.moreIcon.nativeElement)['margin-left'], 10);
 
             for (let index = 0; index < chipsAreaElements.length - 1; index++) {
                 if (viewWidth + chipsAreaElements[index].offsetWidth < areaWidth) {

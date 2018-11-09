@@ -92,9 +92,10 @@ export class IgxFilteringService implements OnDestroy {
     /**
      * Execute filtering on the grid.
      */
-    public filter(field: string, expressionsTree: FilteringExpressionsTree): void {
+    public filter(field: string): void {
         this.isFiltering = true;
 
+        const expressionsTree = this.createSimpleFilteringTree(field);
         this.grid.filter(field, null, expressionsTree);
 
         // Wait for the change detection to update filtered data through the pipes and then emit the event.

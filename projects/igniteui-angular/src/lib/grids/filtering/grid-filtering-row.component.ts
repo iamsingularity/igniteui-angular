@@ -57,7 +57,6 @@ export class IgxGridFilteringRowComponent implements AfterViewInit, OnDestroy {
         positionStrategy: new ConnectedPositioningStrategy(this._positionSettings)
     };
 
-    private rootExpressionsTree: FilteringExpressionsTree;
     private chipsAreaWidth: number;
     private chipAreaScrollOffset = 0;
     private conditionChanged = new Subject();
@@ -624,8 +623,6 @@ export class IgxGridFilteringRowComponent implements AfterViewInit, OnDestroy {
     }
 
     private filter() {
-        this.rootExpressionsTree = this.filteringService.createSimpleFilteringTree(this.column.field);
-
-        this.filteringService.filter(this.column.field, this.rootExpressionsTree);
+        this.filteringService.filter(this.column.field);
     }
 }
