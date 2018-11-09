@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IgxExpansionPanelComponent } from '../expansion-panel';
 import { IgxIconModule } from '../icon/index';
 import { IToggleView } from '../core/navigation';
+import { IgxButtonModule } from '../directives/button/button.directive';
+import { IgxRippleModule } from '../directives/ripple/ripple.directive';
 
 export interface BannerEventArgs {
     banner: IgxBannerComponent;
@@ -136,6 +138,6 @@ export class IgxBannerComponent implements IToggleView {
 @NgModule({
     declarations: [IgxBannerComponent],
     exports: [IgxBannerComponent],
-    imports: [IgxExpansionPanelModule, IgxIconModule, BrowserModule]
+    imports: [IgxExpansionPanelModule, IgxIconModule, BrowserModule, IgxButtonModule, IgxRippleModule]
 })
 export class IgxBannerModule { }

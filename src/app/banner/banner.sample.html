@@ -1,21 +1,19 @@
 <div class="sample-wrapper">
-    <igx-banner #banner
-        message="This is default template's message!"
-        icon="star"
-        [dismissButtonText]="'Reject!!'"
-        [confirmButtonText]="'Confirm'"
-        (onOpen)="onOpen($event)"
-        (onClose)="onClose($event)"
-        (onButtonClick)="onButtonClick($event)">
-        This is some customer template
+    <igx-banner #bannerNoSafeConnection message="Your connections is not private!" icon="lock" [dismissButtonText]="'Reload!!'"
+        [confirmButtonText]="'Advanced'" (onOpen)="onOpen($event)" (onClose)="onClose($event)" (onButtonClick)="onButtonClick($event)">
     </igx-banner>
-    <igx-banner #banner2
-        (onOpen)="onOpen($event)"
-        (onClose)="onClose($event)"
-        (onButtonClick)="onButtonClick($event)">
-        <h1>
-            Banner with some custom template
-        </h1>
+    <igx-banner #bannerCookies (onOpen)="onOpen($event)" (onClose)="onClose($event)" (onButtonClick)="onButtonClick($event)">
+        <div style="width: 100%;">
+            <h5 style="text-align: center">YOUR COOKIES SETTINGS</h5>
+            <hr>
+            <span>We asks you to accept cookies for performance, social media and advertising purpose. To get more
+                information click on 'more information' button</span>
+            <span>Do you accept these cookies and the processing of personal data involved?</span>
+            <section class="sample-column">
+                <button igxButton="flat" igxRipple (click)="moreInfo()">MORE INFORMATION</button>
+                <button igxButton="flat" igxRipple (click)="accept()">YES, I ACCEPT</button>
+            </section>
+        </div>
 
     </igx-banner>
     <app-page-header title="Banner">
@@ -24,7 +22,6 @@
     <div class="sample-content">
         <section class="sample-column">
             <button igxButton="flat" igxRipple (click)="toggle()">Toggle</button>
-            <button igxButton="flat" igxRipple (click)="toggle2()">Toggle2</button>
         </section>
     </div>
 </div>

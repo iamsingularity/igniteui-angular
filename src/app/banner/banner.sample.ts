@@ -1,27 +1,19 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { IgxBannerComponent } from 'igniteui-angular';
 
 @Component({
     selector: 'app-banner-sample',
     templateUrl: `banner.sample.html`
 })
-export class BannerSampleComponent {
-    @ViewChild('banner') banner: IgxBannerComponent;
-    @ViewChild('banner2') banner2: IgxBannerComponent;
+export class BannerSampleComponent implements OnInit {
+    @ViewChild('bannerNoSafeConnection') bannerNoSafeConnection: IgxBannerComponent;
+    @ViewChild('bannerCookies') bannerCookies: IgxBannerComponent;
 
     public toggle() {
-        if (this.banner.collapsed) {
-            this.banner.open();
+        if (this.bannerNoSafeConnection.collapsed) {
+            this.bannerNoSafeConnection.open();
         } else {
-            this.banner.close();
-        }
-    }
-
-    public toggle2() {
-        if (this.banner2.collapsed) {
-            this.banner2.open();
-        } else {
-            this.banner2.close();
+            this.bannerNoSafeConnection.close();
         }
     }
 
@@ -35,5 +27,21 @@ export class BannerSampleComponent {
 
     public onButtonClick(ev) {
         console.log('Button click', ev);
+    }
+
+    public accept() {
+        this.bannerCookies.close();
+    }
+
+    public moreInfo() {
+        this.bannerCookies.close();
+    }
+
+    ngOnInit(): void {
+        setInterval(() => {
+            if (this.bannerCookies.collapsed) {
+                this.bannerCookies.open();
+            }
+        }, 4000);
     }
 }
