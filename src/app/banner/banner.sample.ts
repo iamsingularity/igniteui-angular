@@ -11,17 +11,17 @@ export class BannerSampleComponent {
 
     public toggle() {
         if (this.banner.collapsed) {
-            this.banner.open();
+            this.banner.expand();
         } else {
-            this.banner.close();
+            this.banner.collapse();
         }
     }
 
     public toggle2() {
         if (this.banner2.collapsed) {
-            this.banner2.open();
+            this.banner2.expand();
         } else {
-            this.banner2.close();
+            this.banner2.collapse();
         }
     }
 

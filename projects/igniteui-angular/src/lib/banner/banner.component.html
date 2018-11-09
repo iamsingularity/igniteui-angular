@@ -1,4 +1,4 @@
-<igx-expansion-panel #expansionPanel (onCollapsed)="onCollapsed($event)" (onExpanded)="onExpanded($event)" [collapsed]="collapsed">
+<igx-expansion-panel #expansionPanel (onCollapsed)="onExpansionPanelCollapsed($event)" (onExpanded)="onExpansionPanelExpanded($event)" [collapsed]="collapsed">
     <igx-expansion-panel-body>
         <div class="igx-banner" *ngIf="useDefaultTemplate">
             <div class="igx-banner__message">
